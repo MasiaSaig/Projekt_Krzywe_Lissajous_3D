@@ -80,12 +80,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>C:\Users\mulle\Documents\Visual Studio 2022\Libraries\wxWidgets-3.2.4.7\include\msvc;C:\Users\mulle\Documents\Visual Studio 2022\Libraries\wxWidgets-3.2.4.7\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
-    <LibraryPath>C:\Users\mulle\Documents\Visual Studio 2022\Libraries\wxWidgets-3.2.4.7\lib\vc_x64_lib;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
+    <IncludePath>D:\Code Project\Visual Studio 2022\wsWidgets\include\msvc;D:\Code Project\Visual Studio 2022\wsWidgets\include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <LibraryPath>D:\Code Project\Visual Studio 2022\wsWidgets\lib\vc_x64_lib;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>C:\Users\mulle\Documents\Visual Studio 2022\Libraries\wxWidgets-3.2.4.7\include\msvc;C:\Users\mulle\Documents\Visual Studio 2022\Libraries\wxWidgets-3.2.4.7\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
-    <LibraryPath>C:\Users\mulle\Documents\Visual Studio 2022\Libraries\wxWidgets-3.2.4.7\lib\vc_x64_lib;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
+    <IncludePath>D:\Code Project\Visual Studio 2022\wsWidgets\include\msvc;D:\Code Project\Visual Studio 2022\wsWidgets\include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <LibraryPath>D:\Code Project\Visual Studio 2022\wsWidgets\lib\vc_x64_lib;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -137,7 +137,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

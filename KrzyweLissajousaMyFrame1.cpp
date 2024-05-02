@@ -1,10 +1,17 @@
 ﻿#include "KrzyweLissajousaMyFrame1.h"
 
-KrzyweLissajousaMyFrame1::KrzyweLissajousaMyFrame1( wxWindow* parent )
-:
-MyFrame1( parent )
+KrzyweLissajousaMyFrame1::KrzyweLissajousaMyFrame1(wxWindow* parent)
+	:
+	MyFrame1(parent)
 {
+	SetMinSize({625, 530});
 	this->SetBackgroundColour(wxColor(192, 192, 192));
+
+	coordinates_RadioBox->SetLabel(L"Wsp\u00f3rz\u0119dne");
+	drawingMethod_RadioBox->SetLabel(L"Spos\u00f3b rysowania");
+	obrotX_text->SetLabel(L"Obr\u00f3t X");
+	obrotY_text->SetLabel(L"Obr\u00f3t Y");
+	obrotZ_text->SetLabel(L"Obr\u00f3t Z");
 }
 
 /**
