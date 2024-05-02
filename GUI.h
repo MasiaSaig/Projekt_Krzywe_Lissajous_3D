@@ -39,11 +39,11 @@ class MyFrame1 : public wxFrame
 		wxSlider* obrotY_slider;
 		wxStaticText* obrotZ_text;
 		wxSlider* obrotZ_slider;
-		wxRadioBox* sposobRysowania_RadioBox;
-		wxRadioBox* wspolrzedne_RadioBox;
-		wxStaticText* funkcja_x;
-		wxStaticText* funkcja_y;
-		wxStaticText* funkcja_z;
+		wxRadioBox* drawingMethod_RadioBox;
+		wxRadioBox* coordinates_RadioBox;
+		wxStaticText* function_x;
+		wxStaticText* function_y;
+		wxStaticText* function_z;
 		wxStaticText* amplitudaX_text;
 		wxSlider* amplitudaX_Slider;
 		wxStaticText* aX_text;
@@ -65,11 +65,11 @@ class MyFrame1 : public wxFrame
 
 		// Virtual event handlers, override them in your derived class
 		virtual void drawingPanel_onPaint( wxPaintEvent& event ) { event.Skip(); }
-		virtual void ObrotX_Update( wxScrollEvent& event ) { event.Skip(); }
-		virtual void ObrotY_Update( wxScrollEvent& event ) { event.Skip(); }
-		virtual void ObrotZ_Update( wxScrollEvent& event ) { event.Skip(); }
+		virtual void rotationX_Update( wxScrollEvent& event ) { event.Skip(); }
+		virtual void rotationY_Update( wxScrollEvent& event ) { event.Skip(); }
+		virtual void rotationZ_Update( wxScrollEvent& event ) { event.Skip(); }
 		virtual void sposobRysowania_update( wxCommandEvent& event ) { event.Skip(); }
-		virtual void wspolrzedne_update( wxCommandEvent& event ) { event.Skip(); }
+		virtual void coordinates_update( wxCommandEvent& event ) { event.Skip(); }
 		virtual void A_update( wxScrollEvent& event ) { event.Skip(); }
 		virtual void a_update( wxScrollEvent& event ) { event.Skip(); }
 		virtual void f_a_update( wxScrollEvent& event ) { event.Skip(); }
