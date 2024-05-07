@@ -4,7 +4,7 @@ KrzyweLissajousaMyFrame1::KrzyweLissajousaMyFrame1(wxWindow* parent)
 	:
 	MyFrame1(parent)
 {
-	SetMinSize({625, 530});
+	SetMinSize({625, 650});
 	this->SetBackgroundColour(wxColor(192, 192, 192));
 
 	coordinates_RadioBox->SetLabel(L"Wsp\u00f3rz\u0119dne");
@@ -22,7 +22,9 @@ void KrzyweLissajousaMyFrame1::drawingPanel_onPaint( wxPaintEvent& event )
 {
 // TODO: Implement drawingPanel_onPaint
 // używa się Refresh() aby zaaktualizować/wywołać onPaint event, który uruchamia tą metodę/funkcję
-	wxPaintDC MyDC(drawingPanel);
+	wxPaintDC dc(drawingPanel);
+	dc.SetBackground(wxBrush(wxColour(255, 255, 255), wxBRUSHSTYLE_SOLID));
+	dc.Clear();
 
 	/*
 	idk jakiś przykladowy kod z przykladu wxWidgets 07 na Upel'u

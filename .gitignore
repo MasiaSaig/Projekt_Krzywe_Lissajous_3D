@@ -361,3 +361,7 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+
+# Dodatkowe pominięcia plików
+Projekt_Krzywe_Lissajous_3D.vcxproj

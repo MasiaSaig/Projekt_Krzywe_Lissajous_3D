@@ -11,13 +11,13 @@
     <property name="embedded_files_path">res</property>
     <property name="encoding">UTF-8</property>
     <property name="event_generation">connect</property>
-    <property name="file"></property>
+    <property name="file">GUI</property>
     <property name="first_id">1000</property>
     <property name="help_provider">none</property>
     <property name="image_path_wrapper_function_name"></property>
     <property name="indent_with_spaces"></property>
     <property name="internationalize">0</property>
-    <property name="name">MyProject1</property>
+    <property name="name">KrzyweLissajousa</property>
     <property name="namespace"></property>
     <property name="path">.</property>
     <property name="precompiled_header"></property>
@@ -48,7 +48,7 @@
       <property name="minimum_size"></property>
       <property name="name">MyFrame1</property>
       <property name="pos"></property>
-      <property name="size">598,518</property>
+      <property name="size">640,528</property>
       <property name="style">wxDEFAULT_FRAME_STYLE</property>
       <property name="subclass">; ; forward_declare</property>
       <property name="title"></property>
@@ -112,7 +112,7 @@
                 <property name="minimize_button">0</property>
                 <property name="minimum_size"></property>
                 <property name="moveable">1</property>
-                <property name="name">m_panel1</property>
+                <property name="name">drawingPanel</property>
                 <property name="pane_border">1</property>
                 <property name="pane_position"></property>
                 <property name="pane_size"></property>
@@ -128,6 +128,7 @@
                 <property name="window_extra_style"></property>
                 <property name="window_name"></property>
                 <property name="window_style">wxTAB_TRAVERSAL</property>
+                <event name="OnPaint">drawingPanel_onPaint</event>
               </object>
             </object>
             <object class="sizeritem" expanded="true">
@@ -283,6 +284,7 @@
                             <property name="window_extra_style"></property>
                             <property name="window_name"></property>
                             <property name="window_style"></property>
+                            <event name="OnScroll">rotationX_Update</event>
                           </object>
                         </object>
                       </object>
@@ -422,6 +424,7 @@
                             <property name="window_extra_style"></property>
                             <property name="window_name"></property>
                             <property name="window_style"></property>
+                            <event name="OnScroll">rotationY_Update</event>
                           </object>
                         </object>
                       </object>
@@ -561,6 +564,7 @@
                             <property name="window_extra_style"></property>
                             <property name="window_name"></property>
                             <property name="window_style"></property>
+                            <event name="OnScroll">rotationZ_Update</event>
                           </object>
                         </object>
                       </object>
@@ -619,7 +623,7 @@
                         <property name="minimize_button">0</property>
                         <property name="minimum_size"></property>
                         <property name="moveable">1</property>
-                        <property name="name">sposobRysowania_RadioBox</property>
+                        <property name="name">drawingMethod_RadioBox</property>
                         <property name="pane_border">1</property>
                         <property name="pane_position"></property>
                         <property name="pane_size"></property>
@@ -641,6 +645,7 @@
                         <property name="window_extra_style"></property>
                         <property name="window_name"></property>
                         <property name="window_style"></property>
+                        <event name="OnRadioBox">sposobRysowania_update</event>
                       </object>
                     </object>
                   </object>
@@ -701,7 +706,7 @@
                 <property name="minimize_button">0</property>
                 <property name="minimum_size"></property>
                 <property name="moveable">1</property>
-                <property name="name">wspolrzedne_RadioBox</property>
+                <property name="name">coordinates_RadioBox</property>
                 <property name="pane_border">1</property>
                 <property name="pane_position"></property>
                 <property name="pane_size"></property>
@@ -723,6 +728,7 @@
                 <property name="window_extra_style"></property>
                 <property name="window_name"></property>
                 <property name="window_style"></property>
+                <event name="OnRadioBox">coordinates_update</event>
               </object>
             </object>
             <object class="sizeritem" expanded="true">
@@ -767,7 +773,7 @@
                 <property name="minimize_button">0</property>
                 <property name="minimum_size"></property>
                 <property name="moveable">1</property>
-                <property name="name">funkcja_x</property>
+                <property name="name">function_x</property>
                 <property name="pane_border">1</property>
                 <property name="pane_position"></property>
                 <property name="pane_size"></property>
@@ -829,7 +835,7 @@
                 <property name="minimize_button">0</property>
                 <property name="minimum_size"></property>
                 <property name="moveable">1</property>
-                <property name="name">funkcja_y</property>
+                <property name="name">function_y</property>
                 <property name="pane_border">1</property>
                 <property name="pane_position"></property>
                 <property name="pane_size"></property>
@@ -891,7 +897,7 @@
                 <property name="minimize_button">0</property>
                 <property name="minimum_size"></property>
                 <property name="moveable">1</property>
-                <property name="name">funkcja_z</property>
+                <property name="name">function_z</property>
                 <property name="pane_border">1</property>
                 <property name="pane_position"></property>
                 <property name="pane_size"></property>
@@ -1046,6 +1052,7 @@
                     <property name="window_extra_style"></property>
                     <property name="window_name"></property>
                     <property name="window_style"></property>
+                    <event name="OnScroll">A_update</event>
                   </object>
                 </object>
               </object>
@@ -1185,6 +1192,7 @@
                     <property name="window_extra_style"></property>
                     <property name="window_name"></property>
                     <property name="window_style"></property>
+                    <event name="OnScroll">a_update</event>
                   </object>
                 </object>
               </object>
@@ -1324,6 +1332,7 @@
                     <property name="window_extra_style"></property>
                     <property name="window_name"></property>
                     <property name="window_style"></property>
+                    <event name="OnScroll">f_a_update</event>
                   </object>
                 </object>
               </object>
@@ -1463,6 +1472,7 @@
                     <property name="window_extra_style"></property>
                     <property name="window_name"></property>
                     <property name="window_style"></property>
+                    <event name="OnScroll">B_update</event>
                   </object>
                 </object>
               </object>
@@ -1602,6 +1612,7 @@
                     <property name="window_extra_style"></property>
                     <property name="window_name"></property>
                     <property name="window_style"></property>
+                    <event name="OnScroll">b_update</event>
                   </object>
                 </object>
               </object>
@@ -1741,6 +1752,7 @@
                     <property name="window_extra_style"></property>
                     <property name="window_name"></property>
                     <property name="window_style"></property>
+                    <event name="OnScroll">f_b_update</event>
                   </object>
                 </object>
               </object>
@@ -1880,6 +1892,7 @@
                     <property name="window_extra_style"></property>
                     <property name="window_name"></property>
                     <property name="window_style"></property>
+                    <event name="OnScroll">C_update</event>
                   </object>
                 </object>
               </object>
@@ -2019,6 +2032,7 @@
                     <property name="window_extra_style"></property>
                     <property name="window_name"></property>
                     <property name="window_style"></property>
+                    <event name="OnScroll">c_update</event>
                   </object>
                 </object>
               </object>
@@ -2158,6 +2172,7 @@
                     <property name="window_extra_style"></property>
                     <property name="window_name"></property>
                     <property name="window_style"></property>
+                    <event name="OnScroll">f_c_update</event>
                   </object>
                 </object>
               </object>
