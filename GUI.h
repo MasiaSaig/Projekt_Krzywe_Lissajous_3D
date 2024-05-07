@@ -33,35 +33,35 @@ class MyFrame1 : public wxFrame
 
 	protected:
 		wxPanel* drawingPanel;
-		wxStaticText* obrotX_text;
-		wxSlider* obrotX_slider;
-		wxStaticText* obrotY_text;
-		wxSlider* obrotY_slider;
-		wxStaticText* obrotZ_text;
-		wxSlider* obrotZ_slider;
+		wxStaticText* rotationX_text;
+		wxSlider* rotationX_slider;
+		wxStaticText* rotationY_text;
+		wxSlider* rotationY_slider;
+		wxStaticText* rotationZ_text;
+		wxSlider* rotationZ_slider;
 		wxRadioBox* drawingMethod_RadioBox;
 		wxRadioBox* coordinates_RadioBox;
 		wxStaticText* function_x;
 		wxStaticText* function_y;
 		wxStaticText* function_z;
 		wxStaticText* amplitudeX_text;
-		wxSlider* amplitudaX_Slider;
+		wxSlider* amplitudeX_slider;
 		wxStaticText* aX_text;
 		wxSlider* aX_slider;
 		wxStaticText* shiftX_text;
-		wxSlider* katX_slider;
+		wxSlider* shiftX_slider;
 		wxStaticText* amplitudeY_text;
-		wxSlider* katX_slider1;
+		wxSlider* amplitudeY_slider;
 		wxStaticText* bY_text;
-		wxSlider* katX_slider11;
+		wxSlider* bY_slider;
 		wxStaticText* shiftY_text;
-		wxSlider* katX_slider12;
+		wxSlider* shiftY_slider;
 		wxStaticText* amplitudeZ_text;
-		wxSlider* katX_slider13;
+		wxSlider* amplitudeZ_slider;
 		wxStaticText* cZ_text;
-		wxSlider* katX_slider14;
+		wxSlider* cZ_slider;
 		wxStaticText* shiftZ_text;
-		wxSlider* katX_slider15;
+		wxSlider* shiftZ_slider;
 
 		// Virtual event handlers, override them in your derived class
 		virtual void drawingPanel_onPaint( wxPaintEvent& event ) { event.Skip(); }

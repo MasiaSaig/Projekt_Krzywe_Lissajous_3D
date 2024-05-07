@@ -39,18 +39,30 @@ class KrzyweLissajousaMyFrame1 : public MyFrame1
 	// tutaj wpisujemy metody, zmienne, itp.
 
 	private:
-		/** _coordinates - zmienna(bool) wskazuj¹ca które wspó³rzêdne zosta³y wybrane przez u¿ytkownika.
-		* == false(0) wspó³rzêdne (x,y, z)
-		* == true(1) wspó³rzêdne (r, theta, phi)
+		/** Zmienna(bool) wskazująca które współrzędne zostały wybrane przez użytkownika.
+		* == false(0) współrzędne (x,y,z)
+		* == true(1) współrzędne (r,theta,phi)
 		*/
 		bool _coordinates;
 
-		/** _drawingStyle - zmienna(bool) wskazuj¹ca sposób rysowania krzywych Lissajousa
+		/** Zmienna(bool) wskazujłca sposób rysowania krzywych Lissajousa
 		* == false(0) punkty
 		* == true(1) odcinki
 		*/
-		bool _drawingStyle;
+		bool _drawingMethod;
+		int _angleX;	/** Kąt obrotu wykresu względem osi OX */
+		int _angleY;	/** Kąt obrotu wykresu względem osi OY */
+		int _angleZ;		/** Kąt obrotu wykresu względem osi OZ */
 
+		double _ampX;	/** Amplituda funkcji x(t)*/
+		double _ampY;	/** Amplituda funkcji y(t)*/
+		double _ampZ;	/** Amplituda funkcji z(t)*/
+		int _aX;	/** a funkcji x(t)*/
+		int _bY;	/** b funkcji y(t)*/
+		int _cZ;	/** c funkcji z(t)*/
+		double _shiftX;	/** przesunięcie funkcji x(t) */
+		double _shiftY;	/** przesunięcie funkcji y(t) */
+		double _shiftZ;	/** przesunięcie funkcji z(t) */
 
 
 
