@@ -714,7 +714,7 @@
                 <property name="pin_button">1</property>
                 <property name="pos"></property>
                 <property name="resize">Resizable</property>
-                <property name="selection">0</property>
+                <property name="selection">1</property>
                 <property name="show">1</property>
                 <property name="size"></property>
                 <property name="style">wxRA_SPECIFY_COLS</property>
@@ -959,7 +959,7 @@
                     <property name="gripper">0</property>
                     <property name="hidden">0</property>
                     <property name="id">wxID_ANY</property>
-                    <property name="label">A  </property>
+                    <property name="label">A</property>
                     <property name="markup">0</property>
                     <property name="max_size"></property>
                     <property name="maximize_button">0</property>
@@ -968,7 +968,7 @@
                     <property name="minimize_button">0</property>
                     <property name="minimum_size"></property>
                     <property name="moveable">1</property>
-                    <property name="name">amplitudaX_text</property>
+                    <property name="name">amplitudeX_text</property>
                     <property name="pane_border">1</property>
                     <property name="pane_position"></property>
                     <property name="pane_size"></property>
@@ -1099,7 +1099,7 @@
                     <property name="gripper">0</property>
                     <property name="hidden">0</property>
                     <property name="id">wxID_ANY</property>
-                    <property name="label">a  </property>
+                    <property name="label">a</property>
                     <property name="markup">0</property>
                     <property name="max_size"></property>
                     <property name="maximize_button">0</property>
@@ -1239,7 +1239,7 @@
                     <property name="gripper">0</property>
                     <property name="hidden">0</property>
                     <property name="id">wxID_ANY</property>
-                    <property name="label">f_a</property>
+                    <property name="label">f</property>
                     <property name="markup">0</property>
                     <property name="max_size"></property>
                     <property name="maximize_button">0</property>
@@ -1248,7 +1248,7 @@
                     <property name="minimize_button">0</property>
                     <property name="minimum_size"></property>
                     <property name="moveable">1</property>
-                    <property name="name">katX_text</property>
+                    <property name="name">shiftX_text</property>
                     <property name="pane_border">1</property>
                     <property name="pane_position"></property>
                     <property name="pane_size"></property>
@@ -1379,7 +1379,7 @@
                     <property name="gripper">0</property>
                     <property name="hidden">0</property>
                     <property name="id">wxID_ANY</property>
-                    <property name="label">B  </property>
+                    <property name="label">B</property>
                     <property name="markup">0</property>
                     <property name="max_size"></property>
                     <property name="maximize_button">0</property>
@@ -1388,7 +1388,7 @@
                     <property name="minimize_button">0</property>
                     <property name="minimum_size"></property>
                     <property name="moveable">1</property>
-                    <property name="name">katX_text1</property>
+                    <property name="name">amplitudeY_text</property>
                     <property name="pane_border">1</property>
                     <property name="pane_position"></property>
                     <property name="pane_size"></property>
@@ -1519,7 +1519,7 @@
                     <property name="gripper">0</property>
                     <property name="hidden">0</property>
                     <property name="id">wxID_ANY</property>
-                    <property name="label">b  </property>
+                    <property name="label">b</property>
                     <property name="markup">0</property>
                     <property name="max_size"></property>
                     <property name="maximize_button">0</property>
@@ -1528,7 +1528,7 @@
                     <property name="minimize_button">0</property>
                     <property name="minimum_size"></property>
                     <property name="moveable">1</property>
-                    <property name="name">katX_text11</property>
+                    <property name="name">bY_text</property>
                     <property name="pane_border">1</property>
                     <property name="pane_position"></property>
                     <property name="pane_size"></property>
@@ -1659,7 +1659,7 @@
                     <property name="gripper">0</property>
                     <property name="hidden">0</property>
                     <property name="id">wxID_ANY</property>
-                    <property name="label">f_b</property>
+                    <property name="label">f</property>
                     <property name="markup">0</property>
                     <property name="max_size"></property>
                     <property name="maximize_button">0</property>
@@ -1668,7 +1668,7 @@
                     <property name="minimize_button">0</property>
                     <property name="minimum_size"></property>
                     <property name="moveable">1</property>
-                    <property name="name">katX_text12</property>
+                    <property name="name">shiftY_text</property>
                     <property name="pane_border">1</property>
                     <property name="pane_position"></property>
                     <property name="pane_size"></property>
@@ -1799,7 +1799,7 @@
                     <property name="gripper">0</property>
                     <property name="hidden">0</property>
                     <property name="id">wxID_ANY</property>
-                    <property name="label">C  </property>
+                    <property name="label">C</property>
                     <property name="markup">0</property>
                     <property name="max_size"></property>
                     <property name="maximize_button">0</property>
@@ -1808,7 +1808,7 @@
                     <property name="minimize_button">0</property>
                     <property name="minimum_size"></property>
                     <property name="moveable">1</property>
-                    <property name="name">katX_text13</property>
+                    <property name="name">amplitudeZ_text</property>
                     <property name="pane_border">1</property>
                     <property name="pane_position"></property>
                     <property name="pane_size"></property>
@@ -1939,7 +1939,7 @@
                     <property name="gripper">0</property>
                     <property name="hidden">0</property>
                     <property name="id">wxID_ANY</property>
-                    <property name="label">c  </property>
+                    <property name="label">c</property>
                     <property name="markup">0</property>
                     <property name="max_size"></property>
                     <property name="maximize_button">0</property>
@@ -1948,7 +1948,7 @@
                     <property name="minimize_button">0</property>
                     <property name="minimum_size"></property>
                     <property name="moveable">1</property>
-                    <property name="name">katX_text14</property>
+                    <property name="name">cZ_text</property>
                     <property name="pane_border">1</property>
                     <property name="pane_position"></property>
                     <property name="pane_size"></property>
@@ -2079,7 +2079,7 @@
                     <property name="gripper">0</property>
                     <property name="hidden">0</property>
                     <property name="id">wxID_ANY</property>
-                    <property name="label">f_c</property>
+                    <property name="label">f</property>
                     <property name="markup">0</property>
                     <property name="max_size"></property>
                     <property name="maximize_button">0</property>
@@ -2088,7 +2088,7 @@
                     <property name="minimize_button">0</property>
                     <property name="minimum_size"></property>
                     <property name="moveable">1</property>
-                    <property name="name">katX_text15</property>
+                    <property name="name">shiftZ_text</property>
                     <property name="pane_border">1</property>
                     <property name="pane_position"></property>
                     <property name="pane_size"></property>

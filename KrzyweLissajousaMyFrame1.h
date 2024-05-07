@@ -36,7 +36,22 @@ class KrzyweLissajousaMyFrame1 : public MyFrame1
 		/** Constructor */
 		KrzyweLissajousaMyFrame1( wxWindow* parent );
 	//// end generated class members
-	// tutaj wpisujemy metody itp.
+	// tutaj wpisujemy metody, zmienne, itp.
+
+	private:
+		/** _coordinates - zmienna(bool) wskazuj¹ca które wspó³rzêdne zosta³y wybrane przez u¿ytkownika.
+		* == false(0) wspó³rzêdne (x,y, z)
+		* == true(1) wspó³rzêdne (r, theta, phi)
+		*/
+		bool _coordinates;
+
+		/** _drawingStyle - zmienna(bool) wskazuj¹ca sposób rysowania krzywych Lissajousa
+		* == false(0) punkty
+		* == true(1) odcinki
+		*/
+		bool _drawingStyle;
+
+
 
 
 };

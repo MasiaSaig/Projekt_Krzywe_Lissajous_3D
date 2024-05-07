@@ -44,23 +44,23 @@ class MyFrame1 : public wxFrame
 		wxStaticText* function_x;
 		wxStaticText* function_y;
 		wxStaticText* function_z;
-		wxStaticText* amplitudaX_text;
+		wxStaticText* amplitudeX_text;
 		wxSlider* amplitudaX_Slider;
 		wxStaticText* aX_text;
 		wxSlider* aX_slider;
-		wxStaticText* katX_text;
+		wxStaticText* shiftX_text;
 		wxSlider* katX_slider;
-		wxStaticText* katX_text1;
+		wxStaticText* amplitudeY_text;
 		wxSlider* katX_slider1;
-		wxStaticText* katX_text11;
+		wxStaticText* bY_text;
 		wxSlider* katX_slider11;
-		wxStaticText* katX_text12;
+		wxStaticText* shiftY_text;
 		wxSlider* katX_slider12;
-		wxStaticText* katX_text13;
+		wxStaticText* amplitudeZ_text;
 		wxSlider* katX_slider13;
-		wxStaticText* katX_text14;
+		wxStaticText* cZ_text;
 		wxSlider* katX_slider14;
-		wxStaticText* katX_text15;
+		wxStaticText* shiftZ_text;
 		wxSlider* katX_slider15;
 
 		// Virtual event handlers, override them in your derived class
