@@ -24,6 +24,18 @@
     <ClCompile Include="KrzyweLissajousaMyFrame1.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Matrix4d.h">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Matrix4d.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector4d.h">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector4d.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GUI.h">

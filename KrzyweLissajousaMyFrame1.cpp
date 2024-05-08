@@ -32,7 +32,7 @@ void KrzyweLissajousaMyFrame1::drawingPanel_onPaint(wxPaintEvent& event)
 	wxPaintDC dc(drawingPanel);
 	dc.SetBackground(wxBrush(wxColour(255, 255, 255), wxBRUSHSTYLE_SOLID));
 	dc.Clear();
-
+	
 // jakiś przykladowy kod z przykladu wxWidgets 07 na Upel
 	/*
 	MyDC.SetFont(wxFont(10, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, WxChoice1->GetString(WxChoice1->GetSelection())));

@@ -22,6 +22,10 @@
     <ClCompile Include="GUI.cpp" />
     <ClCompile Include="KrzyweLissajousaMyFrame1.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Matrix4d.cpp" />
+    <ClCompile Include="Matrix4d.h" />
+    <ClCompile Include="Vector4d.cpp" />
+    <ClCompile Include="Vector4d.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GUI.h" />
