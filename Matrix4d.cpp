@@ -30,3 +30,13 @@ Matrix4d Matrix4d::operator* (const Matrix4d& matrix) {
     }
     return result_matrix;
 }
+
+Vector4d operator* (const Matrix4d gMatrix, const Vector4d gVector){
+    unsigned int i, j;
+    Vector4d tmp;
+    for (i = 0; i < 4; i++){
+        tmp[i] = 0.0;
+        for (j = 0; j < 4; j++) tmp[i] = tmp[i] + (gMatrix[i][j] * gVector[j]);
+    }
+    return tmp;
+}

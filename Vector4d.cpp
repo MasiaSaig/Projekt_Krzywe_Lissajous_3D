@@ -2,9 +2,13 @@
 
 #define MATRIX_SIZE 4
 
-Vector4d::Vector4d()
+//Vector4d::Vector4d()
+//{
+//	_data[0] = 0; _data[1] = 0; _data[2] = 0; _data[3] = 1;
+//}
+Vector4d::Vector4d(double x, double y, double z, double v)
 {
-	_data[0] = 0; _data[1] = 0; _data[2] = 0; _data[3] = 1;
+	_data[0] = x; _data[1] = y; _data[2] = z; _data[3] = v;
 }
 
 double& Vector4d::operator[] (unsigned int idx) {

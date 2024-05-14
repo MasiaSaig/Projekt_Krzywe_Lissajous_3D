@@ -6,7 +6,8 @@
 
 class Vector4d {
 public:
-	Vector4d();
+	//Vector4d();
+	Vector4d(double x=0, double y=0, double z=0, double v=1);
 	Vector4d operator-(const Vector4d& vector);
 	double& operator[] (unsigned int idx);
 	double operator[] (unsigned int idx) const;

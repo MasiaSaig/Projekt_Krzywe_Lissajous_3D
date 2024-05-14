@@ -25,9 +25,9 @@
 
 
 ///////////////////////////////////////////////////////////////////////////////
-/// Class MyFrame1
+/// Class Frame
 ///////////////////////////////////////////////////////////////////////////////
-class MyFrame1 : public wxFrame
+class Frame : public wxFrame
 {
 	private:
 
@@ -35,10 +35,13 @@ class MyFrame1 : public wxFrame
 		wxPanel* drawingPanel;
 		wxStaticText* rotationX_text;
 		wxSlider* rotationX_slider;
+		wxStaticText* rotationX_value;
 		wxStaticText* rotationY_text;
 		wxSlider* rotationY_slider;
+		wxStaticText* rotationY_value;
 		wxStaticText* rotationZ_text;
 		wxSlider* rotationZ_slider;
+		wxStaticText* rotationZ_value;
 		wxRadioBox* drawingMethod_RadioBox;
 		wxRadioBox* coordinates_RadioBox;
 		wxStaticText* function_x;
@@ -46,22 +49,31 @@ class MyFrame1 : public wxFrame
 		wxStaticText* function_z;
 		wxStaticText* amplitudeX_text;
 		wxSlider* amplitudeX_slider;
+		wxStaticText* amplitudeX_value;
 		wxStaticText* aX_text;
 		wxSlider* aX_slider;
+		wxStaticText* aX_value;
 		wxStaticText* shiftX_text;
 		wxSlider* shiftX_slider;
+		wxStaticText* shiftX_value;
 		wxStaticText* amplitudeY_text;
 		wxSlider* amplitudeY_slider;
+		wxStaticText* amplitudeY_value;
 		wxStaticText* bY_text;
 		wxSlider* bY_slider;
+		wxStaticText* bY_value;
 		wxStaticText* shiftY_text;
 		wxSlider* shiftY_slider;
+		wxStaticText* shiftY_value;
 		wxStaticText* amplitudeZ_text;
 		wxSlider* amplitudeZ_slider;
+		wxStaticText* amplitudeZ_value;
 		wxStaticText* cZ_text;
 		wxSlider* cZ_slider;
+		wxStaticText* cZ_value;
 		wxStaticText* shiftZ_text;
 		wxSlider* shiftZ_slider;
+		wxStaticText* shiftZ_value;
 
 		// Virtual event handlers, override them in your derived class
 		virtual void drawingPanel_onPaint( wxPaintEvent& event ) { event.Skip(); }
@@ -83,9 +95,9 @@ class MyFrame1 : public wxFrame
 
 	public:
 
-		MyFrame1( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 640,528 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
+		Frame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 640,528 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
 
-		~MyFrame1();
+		~Frame();
 
 };
 

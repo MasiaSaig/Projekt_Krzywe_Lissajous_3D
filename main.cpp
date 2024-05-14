@@ -1,5 +1,5 @@
 #include <wx/wxprec.h>
-#include "KrzyweLissajousaMyFrame1.h"
+#include "KrzyweLissajousaFrame.h"
 
 class MyApp : public wxApp {
 
@@ -15,7 +15,7 @@ IMPLEMENT_APP(MyApp);
 bool MyApp::OnInit()
 {
 	SetProcessDPIAware();
-	wxFrame* mainFrame = new KrzyweLissajousaMyFrame1(NULL);
+	wxFrame* mainFrame = new KrzyweLissajousaFrame(NULL);
 	mainFrame->Show(true);
 	SetTopWindow(mainFrame);
 
