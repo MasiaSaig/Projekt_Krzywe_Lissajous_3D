@@ -76,6 +76,7 @@ class Frame : public wxFrame
 		wxStaticText* shiftZ_value;
 
 		// Virtual event handlers, override them in your derived class
+		virtual void OnSizeChange( wxSizeEvent& event ) { event.Skip(); }
 		virtual void rotationX_Update( wxScrollEvent& event ) { event.Skip(); }
 		virtual void rotationY_Update( wxScrollEvent& event ) { event.Skip(); }
 		virtual void rotationZ_Update( wxScrollEvent& event ) { event.Skip(); }

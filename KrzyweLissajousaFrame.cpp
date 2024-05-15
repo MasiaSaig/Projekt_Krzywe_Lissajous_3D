@@ -32,6 +32,8 @@ KrzyweLissajousaFrame::KrzyweLissajousaFrame(wxWindow* parent)
 	coordinates_RadioBox->SetString(1, L"(r, \u03b8, \u03c6)");
 	coordinates_RadioBox->SetSelection(0);	// ponownie wybiera (x,y,z)
 	drawingMethod_RadioBox->SetSelection(0);
+
+	Repaint();
 }
 
 KrzyweLissajousaFrame::~KrzyweLissajousaFrame()
@@ -324,16 +326,20 @@ double KrzyweLissajousaFrame::functionZ(double t) const {
 	return _ampZ * sin(_cZ * t + _shiftZ);
 }
 
+void KrzyweLissajousaFrame::OnSizeChange(wxSizeEvent& event){
+	Repaint();
+}
+
 /**
  * @brief Funkcja rysująca krzywe Lissajousa w drawingPanel.
  * @param event
  */
-void KrzyweLissajousaFrame::Repaint(){
+void KrzyweLissajousaFrame::Repaint() {
 	// TODO: Implement Repaint
-	
+
 	wxClientDC MyClientDC(drawingPanel);
 	wxBufferedDC dc(&MyClientDC, drawingPanel->GetClientSize());
-	
+
 	dc.SetBackground(wxBrush(wxColour(255, 255, 255), wxBRUSHSTYLE_SOLID));
 	dc.Clear();
 

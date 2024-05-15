@@ -21,6 +21,7 @@ class KrzyweLissajousaFrame : public Frame
 {
 	protected:
 		// Handlers for Frame events.
+		void OnSizeChange( wxSizeEvent& event );
 		void rotationX_Update( wxScrollEvent& event );
 		void rotationY_Update( wxScrollEvent& event );
 		void rotationZ_Update( wxScrollEvent& event );
@@ -39,6 +40,7 @@ class KrzyweLissajousaFrame : public Frame
 		/** Constructor */
 		KrzyweLissajousaFrame( wxWindow* parent );
 	//// end generated class members
+
 		double functionX(double t) const;
 		double functionY(double t) const;
 		double functionZ(double t) const;
@@ -46,32 +48,37 @@ class KrzyweLissajousaFrame : public Frame
 		void Repaint();
 		~KrzyweLissajousaFrame();
 	private:
-		/** Zmienna(bool) wskazuj¹ca które wspó³rzêdne zosta³y wybrane przez u¿ytkownika.
-		* == false(0) wspó³rzêdne (x,y,z)
-		* == true(1) wspó³rzêdne (r,theta,phi)
+		/** Zmienna(bool) wskazująca które współrzędne zostały wybrane przez użytkownika.
+		* == false(0) współrzędne (x,y,z)
+		* == true(1) współrzędne (r,theta,phi)
 		*/
 		bool _coordinates;
 
-		/** Zmienna(bool) wskazuj³ca sposób rysowania krzywych Lissajousa
+		/** Zmienna(bool) wskazująca sposób rysowania krzywych Lissajousa.
 		* == false(0) punkty
 		* == true(1) odcinki
 		*/
 		bool _drawingMethod;
-		int _angleX;	/** K¹t obrotu wykresu wzglêdem osi OX */
-		int _angleY;	/** K¹t obrotu wykresu wzglêdem osi OY */
-		int _angleZ;		/** K¹t obrotu wykresu wzglêdem osi OZ */
+		int _angleX;	/** Kąt obrotu wykresu wzglêdem osi OX. */
+		int _angleY;	/** Kąt obrotu wykresu wzglêdem osi OY. */
+		int _angleZ;	/** Kąt obrotu wykresu wzglêdem osi OZ. */
 
-		double _ampX;	/** Amplituda funkcji x(t)*/
-		double _ampY;	/** Amplituda funkcji y(t)*/
-		double _ampZ;	/** Amplituda funkcji z(t)*/
-		int _aX;	/** a funkcji x(t)*/
-		int _bY;	/** b funkcji y(t)*/
-		int _cZ;	/** c funkcji z(t)*/
-		int _shiftX;	/** przesuniêcie funkcji x(t) */
-		int _shiftY;	/** przesuniêcie funkcji y(t) */
-		int _shiftZ;	/** przesuniêcie funkcji z(t) */
+		double _ampX;	/** Amplituda funkcji x(t). */
+		double _ampY;	/** Amplituda funkcji y(t). */
+		double _ampZ;	/** Amplituda funkcji z(t). */
+		int _aX;	/** a funkcji x(t). */
+		int _bY;	/** b funkcji y(t). */
+		int _cZ;	/** c funkcji z(t). */
+		int _shiftX;	/** Przesuniêcie funkcji x(t). */
+		int _shiftY;	/** Przesuniêcie funkcji y(t). */
+		int _shiftZ;	/** Przesuniêcie funkcji z(t). */
 
-		const unsigned int _nodes = 200;
+		const unsigned int _nodes = 200;	/** Liczba węzłów do narysowania. */
+		/** Tablica przechowująca punkty.
+		* _data_points[0] - punkt x
+		* _data_points[1] - punkt y
+		* _data_points[2] - punkt z
+		*/
 		double(*_data_points)[3];
 
 
