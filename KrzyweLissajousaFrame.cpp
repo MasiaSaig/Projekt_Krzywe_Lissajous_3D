@@ -106,6 +106,7 @@ void KrzyweLissajousaFrame::coordinates_update(wxCommandEvent& event) {
 		function_z->SetLabel(L"z(t)=Csin(ct+\u03b3)");
 	}
 	else {
+		// TODO: zmiana współrzędnych na biegunowe, ?walcowe?, ?sferyczne?
 		function_x->SetLabel(L"r(t)=Asin(at+\u03b1)");
 		function_y->SetLabel(L"\u03b8(t)=Bsin(bt+\u03b2)");
 		function_z->SetLabel(L"\u03c6(t)=Csin(ct+\u03b3)");
@@ -214,87 +215,6 @@ void KrzyweLissajousaFrame::f_c_update(wxScrollEvent& event) {
 }
 
 
-
-// ------------------------------------
-// ------ Macierze Transformacji ------
-
-static Matrix4d macierzTranslacji(double x, double y, double z) {
-	Matrix4d trans;
-	trans[0][0] = 1;
-	trans[1][1] = 1;
-	trans[2][2] = 1;
-	trans[3][3] = 1;
-
-	trans[0][3] = x;
-	trans[1][3] = y;
-	trans[2][3] = z;
-	return trans;
-}
-static Matrix4d macierzObrotuX(double kat) {
-	Matrix4d trans;
-	double radians = kat * PI / 180.0;
-	trans[0][0] = 1.0;
-	trans[1][1] = cos(radians);
-	trans[1][2] = -sin(radians);
-	trans[2][1] = sin(radians);
-	trans[2][2] = cos(radians);
-	trans[3][3] = 1.0;
-	return trans;
-}
-static Matrix4d macierzObrotuY(double kat) {
-	Matrix4d trans;
-	double radians = kat * PI / 180.0;
-	trans[0][0] = cos(radians);
-	trans[0][2] = sin(radians);
-	trans[1][1] = 1.0;
-	trans[2][0] = -sin(radians);
-	trans[2][2] = cos(radians);
-	trans[3][3] = 1.0;
-	return trans;
-}
-static Matrix4d macierzObrotuZ(double kat) {
-	Matrix4d trans;
-	double radians = kat * PI / 180.0;
-	trans[0][0] = cos(radians);
-	trans[0][1] = -sin(radians);
-	trans[1][0] = sin(radians);
-	trans[1][1] = cos(radians);
-	trans[2][2] = 1.0;
-	trans[3][3] = 1.0;
-	return trans;
-}
-static Matrix4d macierzSkalowania(double sx, double sy, double sz) {
-	Matrix4d trans;
-	trans[0][0] = sx;
-	trans[1][1] = sy;
-	trans[2][2] = sz;
-	trans[3][3] = 1.0;
-	return trans;
-}
-/**
- * @brief Funkcja licząca macierz transformacji, rzutowania punktów 3 wymiarowych na 2 wymiarowe.
- * @param left Odległość od środka w lewo ekranu rzutowania
- * @param right Odległość od środka w prawo ekranu rzutowania
- * @param top Odległość od środka w górę ekranu rzutowania
- * @param bottom Odległość od środka w dół ekranu rzutowania
- * @param near Odległość środka ekranu rzutowania od położenia kamery
- * @param far Odległość od położenia kamery, rzutowanych punktów (ograniczenie łapania dalekich punktów).
- * @return (Matri4d) macierz transformacji, którą można zastosować na punktach za pomocą funkcji line2d().
- * @ref line2d "Funkcja służąca do zastosowania macierzy transformacji na punktach."
- */
-static Matrix4d macierzRzutowania3Dna2D(double left, double right, double top, double bottom, double near_, double far_) {
-	Matrix4d trans;
-	trans[0][0] = 2.0 * near_ / (right - left);
-	trans[0][2] = (right + left) / (right - left);
-	trans[1][1] = 2.0 * near_ / (top - bottom);
-	trans[1][2] = (top + bottom) / (top - bottom);
-	trans[2][2] = -(far_ + near_) / (far_ - near_);
-	trans[2][3] = -2.0 * far_ * near_ / (far_ - near_);
-	trans[3][2] = -1.0;
-	trans[3][3] = 0.0;
-
-	return trans;
-}
 /**
  * @brief Zastosowanie podanej macierzy transformacji, na podanych dwóch punktach.
  * @param t Macierz transformacji o wymiarach 4x4, typu Matrix4d.
@@ -345,18 +265,19 @@ void KrzyweLissajousaFrame::Repaint() {
 
 	wxSize panelSize = drawingPanel->GetSize();
 
-	/*
-		Pomysł na rysowanie:
-		Stworzenie dodatkowego wątku, który będzie aktualizawoał drawingPanel co jakiś czas np. 30 razy na sekunde (30fps), poprzez wywoływanie Refresh()
-		https://stackoverflow.com/questions/46903244/how-to-run-an-event-while-another-event-is-running-in-wxwidgets-gui
-		https://docs.wxwidgets.org/3.0/group__group__class__threading.html
-		można dodać przyciski play, stop w których stworzy/usunie się wątek odpowiedzialny za wywoływanie Refresh()
+/*
+	Pomysł na rysowanie:
+	Stworzenie dodatkowego wątku, który będzie aktualizawoał drawingPanel co jakiś czas np. 30 razy na sekunde (30fps), poprzez wywoływanie Refresh()
+	https://stackoverflow.com/questions/46903244/how-to-run-an-event-while-another-event-is-running-in-wxwidgets-gui
+	https://docs.wxwidgets.org/3.0/group__group__class__threading.html
+	można dodać przyciski play, stop w których stworzy/usunie się wątek odpowiedzialny za wywoływanie Refresh()
 
-		Lub posłużyć się animacjami??:
-		https://youtu.be/nuGpVppgV7c?si=UJqiCyuynRl-TThT&t=61
-	*/
+	Lub posłużyć się animacjami??:
+	https://youtu.be/nuGpVppgV7c?si=UJqiCyuynRl-TThT&t=61
+*/
 
 	// sprawdzenie wyrysowania, bez animacji zależnej od czasu
+	
 	double temp_t[200]{};
 	for (int i = 0; i < 200; ++i) {
 		temp_t[i] = 2.0 * PI * i / 200.0;
@@ -364,29 +285,50 @@ void KrzyweLissajousaFrame::Repaint() {
 		_data_points[i][1] = functionY(temp_t[i]);
 		_data_points[i][2] = functionZ(temp_t[i]);
 	}
-	double Sx = panelSize.x;
-	double Sy = panelSize.y;
+	double Sx = panelSize.x / 2.0;
+	double Sy = panelSize.y / 2.0;
 	double Sz = 1.0;
 
+	
 	Matrix4d transform_matrix_before_scale, transform_matrix;
-	transform_matrix_before_scale = macierzTranslacji(0, 0, 16);	// przesuniecie punktów o 16 do tyłu
+	constexpr double z_axis_shift = 2.0;
+	// wyznaczenie Sx==Sy aby wykresy nie rozszerzały się nierównomiernie
+	// oraz obliczenie paddingu po lewej i prawej stronie wykresu, aby był rysowany na środku panelu
+	int padding;
+	if (Sx < Sy) {
+		Sy = Sx;
+		padding = (panelSize.y - panelSize.x) / 2;
+		transform_matrix = macierzTranslacji(0, -padding, 0);
+	}
+	if (Sx > Sy) {
+		Sx = Sy;
+		padding = (panelSize.x - panelSize.y) / 2;
+		transform_matrix = macierzTranslacji(padding, 0, 0);
+	}
+	
+	// przesunięcie układu do tyłu ekranu (w stronę + osi Z)
+	transform_matrix_before_scale = macierzTranslacji(0, 0, z_axis_shift + _ampZ);	
+	// obrót wykresu
 	transform_matrix_before_scale = transform_matrix_before_scale * macierzObrotuX(_angleX);
 	transform_matrix_before_scale = transform_matrix_before_scale * macierzObrotuY(_angleY);
 	transform_matrix_before_scale = transform_matrix_before_scale * macierzObrotuZ(_angleZ);
 
 	// przesunięcie środka do lewego-dolnego rogu -> przeskalowanie punktów -> przesunięcie środka na środek drawingPanel
-	transform_matrix = macierzTranslacji(0, panelSize.y, 0) * (macierzSkalowania(Sx, Sy, Sz) * macierzTranslacji(0.5, -0.5, 0));
-	transform_matrix = transform_matrix * macierzRzutowania3Dna2D(-6.0, 6.0, 6.0, -6.0, 1.0, 25.0);
+	transform_matrix = transform_matrix * macierzTranslacji(0, panelSize.y, 0) * (macierzSkalowania(Sx, Sy, Sz) * macierzTranslacji(1, -1, 0));
+	transform_matrix = transform_matrix * macierzRzutowania3Dna2D(-1.0, 1.0, 1.0, -1.0, 1.0, 21.0);
 
+	// rysowanie odcinków
 	double x1, y1, z1, x2, y2, z2;
 	dc.SetPen(wxPen(RGB(0, 0, 0)));
 	for (int i = 0; i < _nodes - 1; ++i) {
 		x1 = _data_points[i][0]; y1 = _data_points[i][1]; z1 = _data_points[i][2];
 		x2 = _data_points[i + 1][0]; y2 = _data_points[i + 1][1]; z2 = _data_points[i + 1][2];
 
+		
 		line2d(transform_matrix_before_scale, &x1, &y1, &z1, &x2, &y2, &z2);
-		line2d(transform_matrix, &x1, &y1, &z1, &x2, &y2, &z2);
-		dc.DrawLine(x1, y1, x2, y2);
+		if ((z1 > 1) && (z2 > 1)) {
+			line2d(transform_matrix, &x1, &y1, &z1, &x2, &y2, &z2);
+			dc.DrawLine(x1, y1, x2, y2);
+		}
 	}
-
 }

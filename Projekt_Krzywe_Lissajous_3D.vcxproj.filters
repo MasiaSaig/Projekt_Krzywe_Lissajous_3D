@@ -27,7 +27,7 @@
     <ClCompile Include="Vector4d.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="KrzyweLissajousaMyFrame1.cpp">
+    <ClCompile Include="KrzyweLissajousaFrame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -35,13 +35,13 @@
     <ClInclude Include="GUI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="KrzyweLissajousaMyFrame1.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Matrix4d.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Vector4d.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="KrzyweLissajousaFrame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
