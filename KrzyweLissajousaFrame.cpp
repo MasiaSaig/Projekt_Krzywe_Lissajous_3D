@@ -10,7 +10,13 @@ KrzyweLissajousaFrame::KrzyweLissajousaFrame(wxWindow* parent)
 	_angleX{ 0 }, _angleY{ 0 }, _angleZ{ 0 },
 	Frame(parent)
 {
+	// ustawienie punktów
 	_data_points = new double[_nodes][3];
+	// ustawienie punktów osi, na najniższe wartości !nie środek układu, tj. nie punkt (0,0,0)!
+	_axis_points[0][0] = -amplitudeX_slider->GetMax()/10.0; _axis_points[0][1] = -amplitudeY_slider->GetMax()/10.0; _axis_points[0][2] = -amplitudeZ_slider->GetMax()/10.0;
+	_axis_points[1][0] = amplitudeX_slider->GetMax()/10.0 + 1; _axis_points[1][1] = _axis_points[0][1]; _axis_points[1][2] = _axis_points[0][2];
+	_axis_points[2][0] = _axis_points[0][0]; _axis_points[2][1] = amplitudeY_slider->GetMax()/10.0 + 1; _axis_points[2][2] = _axis_points[0][2];
+	_axis_points[3][0] = _axis_points[0][0]; _axis_points[3][1] = _axis_points[0][1]; _axis_points[3][2] = amplitudeZ_slider->GetMax()/10.0 + 1;
 
 
 	SetMinSize({ 625, 650 });
@@ -291,7 +297,7 @@ void KrzyweLissajousaFrame::Repaint() {
 
 	
 	Matrix4d transform_matrix_before_scale, transform_matrix;
-	constexpr double z_axis_shift = 2.0;
+	constexpr double z_axis_shift = 22.0;
 	// wyznaczenie Sx==Sy aby wykresy nie rozszerzały się nierównomiernie
 	// oraz obliczenie paddingu po lewej i prawej stronie wykresu, aby był rysowany na środku panelu
 	int padding;
@@ -307,7 +313,7 @@ void KrzyweLissajousaFrame::Repaint() {
 	}
 	
 	// przesunięcie układu do tyłu ekranu (w stronę + osi Z)
-	transform_matrix_before_scale = macierzTranslacji(0, 0, z_axis_shift + _ampZ);	
+	transform_matrix_before_scale = macierzTranslacji(0, 0, z_axis_shift);	
 	// obrót wykresu
 	transform_matrix_before_scale = transform_matrix_before_scale * macierzObrotuX(_angleX);
 	transform_matrix_before_scale = transform_matrix_before_scale * macierzObrotuY(_angleY);
@@ -330,5 +336,15 @@ void KrzyweLissajousaFrame::Repaint() {
 			line2d(transform_matrix, &x1, &y1, &z1, &x2, &y2, &z2);
 			dc.DrawLine(x1, y1, x2, y2);
 		}
+	}
+	// rysowanie odcinków osi
+	dc.SetPen(wxPen(RGB(0, 0, 160)));
+	for (int i = 0; i < 3; ++i) {
+		x1 = -_axis_points[0][0]; y1 = _axis_points[0][1]; z1 = -_axis_points[0][2];
+		x2 = -_axis_points[i + 1][0]; y2 = _axis_points[i + 1][1]; z2 = -_axis_points[i + 1][2];
+
+		line2d(transform_matrix_before_scale, &x1, &y1, &z1, &x2, &y2, &z2);
+		line2d(transform_matrix, &x1, &y1, &z1, &x2, &y2, &z2);
+		dc.DrawLine(x1, y1, x2, y2);
 	}
 }
