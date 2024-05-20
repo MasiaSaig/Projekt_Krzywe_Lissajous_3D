@@ -242,12 +242,27 @@ static void line2d(Matrix4d t, double* x1, double* y1, double* z1, double* x2, d
 }
 // ------------------------------------
 
+/**
+ * @brief Funkcja obliczająca wartość X, dla określonej amplitudy, 'a' oraz kąta przesunięcia.
+ * @param[in] t Czas.
+ * @return Wartość, zależna od podanego t.
+ */
 double KrzyweLissajousaFrame::functionX(double t) const {
 	return _ampX * sin(_aX * t + _shiftX);
 }
+/**
+ * @brief Funkcja obliczająca wartość Y, dla określonej amplitudy, 'b' oraz kąta przesunięcia.
+ * @param[in] t Czas.
+ * @return Wartość, zależna od podanego t.
+ */
 double KrzyweLissajousaFrame::functionY(double t) const {
 	return _ampY * sin(_bY * t + _shiftY);
 }
+/**
+ * @brief Funkcja obliczająca wartość X, dla określonej amplitudy, 'c' oraz kąta przesunięcia.
+ * @param[in] t Czas.
+ * @return Wartość, zależna od podanego t.
+ */
 double KrzyweLissajousaFrame::functionZ(double t) const {
 	return _ampZ * sin(_cZ * t + _shiftZ);
 }
@@ -258,7 +273,6 @@ void KrzyweLissajousaFrame::OnSizeChange(wxSizeEvent& event){
 
 /**
  * @brief Funkcja rysująca krzywe Lissajousa w drawingPanel.
- * @param event
  */
 void KrzyweLissajousaFrame::Repaint() {
 	// TODO: Implement Repaint
@@ -284,21 +298,23 @@ void KrzyweLissajousaFrame::Repaint() {
 
 	// sprawdzenie wyrysowania, bez animacji zależnej od czasu
 	
-	double temp_t[200]{};
-	for (int i = 0; i < 200; ++i) {
-		temp_t[i] = 2.0 * PI * i / 200.0;
+	// TODO: optymalizacja. Przeniesienie obliczania punktów tylko podczas zmiany parametrów
+	double* temp_t = new double[_nodes];
+	for (int i = 0; i < _nodes; ++i) {
+		temp_t[i] = 2.0 * PI * i / static_cast<double>(_nodes);	// 200 punktów w zakresie od 0 do 2*PI
 		_data_points[i][0] = functionX(temp_t[i]);
 		_data_points[i][1] = functionY(temp_t[i]);
 		_data_points[i][2] = functionZ(temp_t[i]);
 	}
+
+
 	double Sx = panelSize.x / 2.0;
 	double Sy = panelSize.y / 2.0;
 	double Sz = 1.0;
-
 	
 	Matrix4d transform_matrix_before_scale, transform_matrix;
 	constexpr double z_axis_shift = 22.0;
-	// wyznaczenie Sx==Sy aby wykresy nie rozszerzały się nierównomiernie
+	// wyznaczenie Sx==Sy aby wykresy nie rozszerzały się, nierównomiernie
 	// oraz obliczenie paddingu po lewej i prawej stronie wykresu, aby był rysowany na środku panelu
 	int padding;
 	if (Sx < Sy) {
@@ -327,12 +343,12 @@ void KrzyweLissajousaFrame::Repaint() {
 	double x1, y1, z1, x2, y2, z2;
 	dc.SetPen(wxPen(RGB(0, 0, 0)));
 	for (int i = 0; i < _nodes - 1; ++i) {
-		x1 = _data_points[i][0]; y1 = _data_points[i][1]; z1 = _data_points[i][2];
-		x2 = _data_points[i + 1][0]; y2 = _data_points[i + 1][1]; z2 = _data_points[i + 1][2];
+		x1 = -_data_points[i][0]; y1 = _data_points[i][1]; z1 = -_data_points[i][2];
+		x2 = -_data_points[i + 1][0]; y2 = _data_points[i + 1][1]; z2 = -_data_points[i + 1][2];
 
-		
+		// TODO: rysowanie punktów lub odcinków w zależności od wyboru użytkownika
 		line2d(transform_matrix_before_scale, &x1, &y1, &z1, &x2, &y2, &z2);
-		if ((z1 > 1) && (z2 > 1)) {
+		if ((z1 > 1) && (z2 > 1)) {	// zapobiega wyrysowanu odcinków/punktów za ekranem wyświetlania
 			line2d(transform_matrix, &x1, &y1, &z1, &x2, &y2, &z2);
 			dc.DrawLine(x1, y1, x2, y2);
 		}

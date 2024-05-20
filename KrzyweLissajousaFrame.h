@@ -74,11 +74,17 @@ class KrzyweLissajousaFrame : public Frame
 
 		const unsigned int _nodes = 200;	/** Liczba węzłów do narysowania. */
 		/** Tablica przechowująca punkty.
-		* _data_points[0] - punkt x
-		* _data_points[1] - punkt y
-		* _data_points[2] - punkt z
+		* _data_points[][0] - punkt x
+		* _data_points[][1] - punkt y
+		* _data_points[][2] - punkt z
 		*/
 		double(*_data_points)[3];
+		/** Tablica przechowująca punkty początku i końców oś współrzędnych.
+		* _axis_points[0][] - wspołrzędne punktu początkowego, przyjmującego najmniejszej wartości x, y, z
+		* _axis_points[][0] - punkt x
+		* _axis_points[][1] - punkt y
+		* _axis_points[][2] - punkt z
+		*/
 		double _axis_points[4][3];
 
 
