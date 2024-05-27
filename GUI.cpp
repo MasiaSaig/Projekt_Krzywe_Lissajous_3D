@@ -103,10 +103,163 @@ Frame::Frame( wxWindow* parent, wxWindowID id, const wxString& title, const wxPo
 	wxBoxSizer* bSizer2;
 	bSizer2 = new wxBoxSizer( wxVERTICAL );
 
+	wxBoxSizer* bSizer3;
+	bSizer3 = new wxBoxSizer( wxHORIZONTAL );
+
+	amplitudeX_text = new wxStaticText( this, wxID_ANY, wxT("A"), wxDefaultPosition, wxDefaultSize, 0 );
+	amplitudeX_text->Wrap( -1 );
+	bSizer3->Add( amplitudeX_text, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+
+	amplitudeX_slider = new wxSlider( this, wxID_ANY, 10, 0, 100, wxDefaultPosition, wxDefaultSize, wxSL_HORIZONTAL );
+	bSizer3->Add( amplitudeX_slider, 1, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+
+	amplitudeX_value = new wxStaticText( this, wxID_ANY, wxT("1     "), wxDefaultPosition, wxDefaultSize, 0 );
+	amplitudeX_value->Wrap( -1 );
+	bSizer3->Add( amplitudeX_value, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+
+
+	bSizer2->Add( bSizer3, 1, wxEXPAND, 5 );
+
+	wxBoxSizer* bSizer31;
+	bSizer31 = new wxBoxSizer( wxHORIZONTAL );
+
+	aX_text = new wxStaticText( this, wxID_ANY, wxT("a"), wxDefaultPosition, wxDefaultSize, 0 );
+	aX_text->Wrap( -1 );
+	bSizer31->Add( aX_text, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+
+	aX_slider = new wxSlider( this, wxID_ANY, 1, 0, 20, wxDefaultPosition, wxDefaultSize, wxSL_HORIZONTAL );
+	bSizer31->Add( aX_slider, 1, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+
+	aX_value = new wxStaticText( this, wxID_ANY, wxT("1  "), wxDefaultPosition, wxDefaultSize, 0 );
+	aX_value->Wrap( -1 );
+	bSizer31->Add( aX_value, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+
+
+	bSizer2->Add( bSizer31, 1, wxEXPAND, 5 );
+
+	wxBoxSizer* bSizer311;
+	bSizer311 = new wxBoxSizer( wxHORIZONTAL );
+
+	shiftX_text = new wxStaticText( this, wxID_ANY, wxT("f"), wxDefaultPosition, wxDefaultSize, 0 );
+	shiftX_text->Wrap( -1 );
+	bSizer311->Add( shiftX_text, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+
+	shiftX_slider = new wxSlider( this, wxID_ANY, 0, 0, 360, wxDefaultPosition, wxDefaultSize, wxSL_HORIZONTAL );
+	bSizer311->Add( shiftX_slider, 1, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+
+	shiftX_value = new wxStaticText( this, wxID_ANY, wxT("0  "), wxDefaultPosition, wxDefaultSize, 0 );
+	shiftX_value->Wrap( -1 );
+	bSizer311->Add( shiftX_value, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+
+
+	bSizer2->Add( bSizer311, 1, wxEXPAND, 5 );
+
+	wxBoxSizer* bSizer3111;
+	bSizer3111 = new wxBoxSizer( wxHORIZONTAL );
+
+	amplitudeY_text = new wxStaticText( this, wxID_ANY, wxT("B"), wxDefaultPosition, wxDefaultSize, 0 );
+	amplitudeY_text->Wrap( -1 );
+	bSizer3111->Add( amplitudeY_text, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+
+	amplitudeY_slider = new wxSlider( this, wxID_ANY, 10, 0, 100, wxDefaultPosition, wxDefaultSize, wxSL_HORIZONTAL );
+	bSizer3111->Add( amplitudeY_slider, 1, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+
+	amplitudeY_value = new wxStaticText( this, wxID_ANY, wxT("1  "), wxDefaultPosition, wxDefaultSize, 0 );
+	amplitudeY_value->Wrap( -1 );
+	bSizer3111->Add( amplitudeY_value, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+
+
+	bSizer2->Add( bSizer3111, 1, wxEXPAND, 5 );
+
+	wxBoxSizer* bSizer31111;
+	bSizer31111 = new wxBoxSizer( wxHORIZONTAL );
+
+	bY_text = new wxStaticText( this, wxID_ANY, wxT("b"), wxDefaultPosition, wxDefaultSize, 0 );
+	bY_text->Wrap( -1 );
+	bSizer31111->Add( bY_text, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+
+	bY_slider = new wxSlider( this, wxID_ANY, 1, 0, 20, wxDefaultPosition, wxDefaultSize, wxSL_HORIZONTAL );
+	bSizer31111->Add( bY_slider, 1, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+
+	bY_value = new wxStaticText( this, wxID_ANY, wxT("1  "), wxDefaultPosition, wxDefaultSize, 0 );
+	bY_value->Wrap( -1 );
+	bSizer31111->Add( bY_value, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+
+
+	bSizer2->Add( bSizer31111, 1, wxEXPAND, 5 );
+
+	wxBoxSizer* bSizer31112;
+	bSizer31112 = new wxBoxSizer( wxHORIZONTAL );
+
+	shiftY_text = new wxStaticText( this, wxID_ANY, wxT("f"), wxDefaultPosition, wxDefaultSize, 0 );
+	shiftY_text->Wrap( -1 );
+	bSizer31112->Add( shiftY_text, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+
+	shiftY_slider = new wxSlider( this, wxID_ANY, 0, 0, 360, wxDefaultPosition, wxDefaultSize, wxSL_HORIZONTAL );
+	bSizer31112->Add( shiftY_slider, 1, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+
+	shiftY_value = new wxStaticText( this, wxID_ANY, wxT("0  "), wxDefaultPosition, wxDefaultSize, 0 );
+	shiftY_value->Wrap( -1 );
+	bSizer31112->Add( shiftY_value, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+
+
+	bSizer2->Add( bSizer31112, 1, wxEXPAND, 5 );
+
+	wxBoxSizer* bSizer31113;
+	bSizer31113 = new wxBoxSizer( wxHORIZONTAL );
+
+	amplitudeZ_text = new wxStaticText( this, wxID_ANY, wxT("C"), wxDefaultPosition, wxDefaultSize, 0 );
+	amplitudeZ_text->Wrap( -1 );
+	bSizer31113->Add( amplitudeZ_text, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+
+	amplitudeZ_slider = new wxSlider( this, wxID_ANY, 10, 0, 100, wxDefaultPosition, wxDefaultSize, wxSL_HORIZONTAL );
+	bSizer31113->Add( amplitudeZ_slider, 1, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+
+	amplitudeZ_value = new wxStaticText( this, wxID_ANY, wxT("1  "), wxDefaultPosition, wxDefaultSize, 0 );
+	amplitudeZ_value->Wrap( -1 );
+	bSizer31113->Add( amplitudeZ_value, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+
+
+	bSizer2->Add( bSizer31113, 1, wxEXPAND, 5 );
+
+	wxBoxSizer* bSizer31114;
+	bSizer31114 = new wxBoxSizer( wxHORIZONTAL );
+
+	cZ_text = new wxStaticText( this, wxID_ANY, wxT("c"), wxDefaultPosition, wxDefaultSize, 0 );
+	cZ_text->Wrap( -1 );
+	bSizer31114->Add( cZ_text, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+
+	cZ_slider = new wxSlider( this, wxID_ANY, 1, 0, 20, wxDefaultPosition, wxDefaultSize, wxSL_HORIZONTAL );
+	bSizer31114->Add( cZ_slider, 1, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+
+	cZ_value = new wxStaticText( this, wxID_ANY, wxT("1  "), wxDefaultPosition, wxDefaultSize, 0 );
+	cZ_value->Wrap( -1 );
+	bSizer31114->Add( cZ_value, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+
+
+	bSizer2->Add( bSizer31114, 1, wxEXPAND, 5 );
+
+	wxBoxSizer* bSizer31115;
+	bSizer31115 = new wxBoxSizer( wxHORIZONTAL );
+
+	shiftZ_text = new wxStaticText( this, wxID_ANY, wxT("f"), wxDefaultPosition, wxDefaultSize, 0 );
+	shiftZ_text->Wrap( -1 );
+	bSizer31115->Add( shiftZ_text, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+
+	shiftZ_slider = new wxSlider( this, wxID_ANY, 0, 0, 360, wxDefaultPosition, wxDefaultSize, wxSL_HORIZONTAL );
+	bSizer31115->Add( shiftZ_slider, 1, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+
+	shiftZ_value = new wxStaticText( this, wxID_ANY, wxT("0  "), wxDefaultPosition, wxDefaultSize, 0 );
+	shiftZ_value->Wrap( -1 );
+	bSizer31115->Add( shiftZ_value, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+
+
+	bSizer2->Add( bSizer31115, 1, wxEXPAND, 5 );
+
 	wxString coordinates_RadioBoxChoices[] = { wxT("(x, y, z)"), wxT("(r, theta, phi)") };
 	int coordinates_RadioBoxNChoices = sizeof( coordinates_RadioBoxChoices ) / sizeof( wxString );
 	coordinates_RadioBox = new wxRadioBox( this, wxID_ANY, wxT("Współrzędne"), wxDefaultPosition, wxDefaultSize, coordinates_RadioBoxNChoices, coordinates_RadioBoxChoices, 1, wxRA_SPECIFY_COLS );
-	coordinates_RadioBox->SetSelection( 0 );
+	coordinates_RadioBox->SetSelection( 1 );
 	bSizer2->Add( coordinates_RadioBox, 0, wxALIGN_CENTER|wxALL, 5 );
 
 	wxBoxSizer* bSizer191;
@@ -124,161 +277,24 @@ Frame::Frame( wxWindow* parent, wxWindowID id, const wxString& title, const wxPo
 	function_z->Wrap( -1 );
 	bSizer191->Add( function_z, 0, wxALL, 5 );
 
+	function_r = new wxStaticText( this, wxID_ANY, wxT("r = sqrt(x^2 + y^2 + z^2)"), wxDefaultPosition, wxDefaultSize, 0 );
+	function_r->Wrap( -1 );
+	bSizer191->Add( function_r, 0, wxALL, 5 );
+
+	function_theta = new wxStaticText( this, wxID_ANY, wxT("theta=arccos(z/r)"), wxDefaultPosition, wxDefaultSize, 0 );
+	function_theta->Wrap( -1 );
+	bSizer191->Add( function_theta, 0, wxALL, 5 );
+
+	function_phi = new wxStaticText( this, wxID_ANY, wxT("phi=arctan 2(y,z)"), wxDefaultPosition, wxDefaultSize, 0 );
+	function_phi->Wrap( -1 );
+	bSizer191->Add( function_phi, 0, wxALL, 5 );
+
 
 	bSizer2->Add( bSizer191, 1, wxALIGN_CENTER|wxALL, 5 );
 
-	wxBoxSizer* bSizer3;
-	bSizer3 = new wxBoxSizer( wxHORIZONTAL );
-
-	amplitudeX_text = new wxStaticText( this, wxID_ANY, wxT("A"), wxDefaultPosition, wxDefaultSize, 0 );
-	amplitudeX_text->Wrap( -1 );
-	bSizer3->Add( amplitudeX_text, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
-
-	amplitudeX_slider = new wxSlider( this, wxID_ANY, 10, 0, 100, wxDefaultPosition, wxDefaultSize, wxSL_HORIZONTAL );
-	bSizer3->Add( amplitudeX_slider, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
-
-	amplitudeX_value = new wxStaticText( this, wxID_ANY, wxT("1     "), wxDefaultPosition, wxDefaultSize, 0 );
-	amplitudeX_value->Wrap( -1 );
-	bSizer3->Add( amplitudeX_value, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
-
-
-	bSizer2->Add( bSizer3, 1, wxEXPAND, 5 );
-
-	wxBoxSizer* bSizer31;
-	bSizer31 = new wxBoxSizer( wxHORIZONTAL );
-
-	aX_text = new wxStaticText( this, wxID_ANY, wxT("a"), wxDefaultPosition, wxDefaultSize, 0 );
-	aX_text->Wrap( -1 );
-	bSizer31->Add( aX_text, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
-
-	aX_slider = new wxSlider( this, wxID_ANY, 1, 0, 20, wxDefaultPosition, wxDefaultSize, wxSL_HORIZONTAL );
-	bSizer31->Add( aX_slider, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
-
-	aX_value = new wxStaticText( this, wxID_ANY, wxT("1  "), wxDefaultPosition, wxDefaultSize, 0 );
-	aX_value->Wrap( -1 );
-	bSizer31->Add( aX_value, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
-
-
-	bSizer2->Add( bSizer31, 1, wxEXPAND, 5 );
-
-	wxBoxSizer* bSizer311;
-	bSizer311 = new wxBoxSizer( wxHORIZONTAL );
-
-	shiftX_text = new wxStaticText( this, wxID_ANY, wxT("f"), wxDefaultPosition, wxDefaultSize, 0 );
-	shiftX_text->Wrap( -1 );
-	bSizer311->Add( shiftX_text, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
-
-	shiftX_slider = new wxSlider( this, wxID_ANY, 0, 0, 360, wxDefaultPosition, wxDefaultSize, wxSL_HORIZONTAL );
-	bSizer311->Add( shiftX_slider, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
-
-	shiftX_value = new wxStaticText( this, wxID_ANY, wxT("0  "), wxDefaultPosition, wxDefaultSize, 0 );
-	shiftX_value->Wrap( -1 );
-	bSizer311->Add( shiftX_value, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
-
-
-	bSizer2->Add( bSizer311, 1, wxEXPAND, 5 );
-
-	wxBoxSizer* bSizer3111;
-	bSizer3111 = new wxBoxSizer( wxHORIZONTAL );
-
-	amplitudeY_text = new wxStaticText( this, wxID_ANY, wxT("B"), wxDefaultPosition, wxDefaultSize, 0 );
-	amplitudeY_text->Wrap( -1 );
-	bSizer3111->Add( amplitudeY_text, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
-
-	amplitudeY_slider = new wxSlider( this, wxID_ANY, 10, 0, 100, wxDefaultPosition, wxDefaultSize, wxSL_HORIZONTAL );
-	bSizer3111->Add( amplitudeY_slider, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
-
-	amplitudeY_value = new wxStaticText( this, wxID_ANY, wxT("1  "), wxDefaultPosition, wxDefaultSize, 0 );
-	amplitudeY_value->Wrap( -1 );
-	bSizer3111->Add( amplitudeY_value, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
-
-
-	bSizer2->Add( bSizer3111, 1, wxEXPAND, 5 );
-
-	wxBoxSizer* bSizer31111;
-	bSizer31111 = new wxBoxSizer( wxHORIZONTAL );
-
-	bY_text = new wxStaticText( this, wxID_ANY, wxT("b"), wxDefaultPosition, wxDefaultSize, 0 );
-	bY_text->Wrap( -1 );
-	bSizer31111->Add( bY_text, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
-
-	bY_slider = new wxSlider( this, wxID_ANY, 1, 0, 20, wxDefaultPosition, wxDefaultSize, wxSL_HORIZONTAL );
-	bSizer31111->Add( bY_slider, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
-
-	bY_value = new wxStaticText( this, wxID_ANY, wxT("1  "), wxDefaultPosition, wxDefaultSize, 0 );
-	bY_value->Wrap( -1 );
-	bSizer31111->Add( bY_value, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
-
-
-	bSizer2->Add( bSizer31111, 1, wxEXPAND, 5 );
-
-	wxBoxSizer* bSizer31112;
-	bSizer31112 = new wxBoxSizer( wxHORIZONTAL );
-
-	shiftY_text = new wxStaticText( this, wxID_ANY, wxT("f"), wxDefaultPosition, wxDefaultSize, 0 );
-	shiftY_text->Wrap( -1 );
-	bSizer31112->Add( shiftY_text, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
-
-	shiftY_slider = new wxSlider( this, wxID_ANY, 0, 0, 360, wxDefaultPosition, wxDefaultSize, wxSL_HORIZONTAL );
-	bSizer31112->Add( shiftY_slider, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
-
-	shiftY_value = new wxStaticText( this, wxID_ANY, wxT("0  "), wxDefaultPosition, wxDefaultSize, 0 );
-	shiftY_value->Wrap( -1 );
-	bSizer31112->Add( shiftY_value, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
-
-
-	bSizer2->Add( bSizer31112, 1, wxEXPAND, 5 );
-
-	wxBoxSizer* bSizer31113;
-	bSizer31113 = new wxBoxSizer( wxHORIZONTAL );
-
-	amplitudeZ_text = new wxStaticText( this, wxID_ANY, wxT("C"), wxDefaultPosition, wxDefaultSize, 0 );
-	amplitudeZ_text->Wrap( -1 );
-	bSizer31113->Add( amplitudeZ_text, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
-
-	amplitudeZ_slider = new wxSlider( this, wxID_ANY, 10, 0, 100, wxDefaultPosition, wxDefaultSize, wxSL_HORIZONTAL );
-	bSizer31113->Add( amplitudeZ_slider, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
-
-	amplitudeZ_value = new wxStaticText( this, wxID_ANY, wxT("1  "), wxDefaultPosition, wxDefaultSize, 0 );
-	amplitudeZ_value->Wrap( -1 );
-	bSizer31113->Add( amplitudeZ_value, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
-
-
-	bSizer2->Add( bSizer31113, 1, wxEXPAND, 5 );
-
-	wxBoxSizer* bSizer31114;
-	bSizer31114 = new wxBoxSizer( wxHORIZONTAL );
-
-	cZ_text = new wxStaticText( this, wxID_ANY, wxT("c"), wxDefaultPosition, wxDefaultSize, 0 );
-	cZ_text->Wrap( -1 );
-	bSizer31114->Add( cZ_text, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
-
-	cZ_slider = new wxSlider( this, wxID_ANY, 1, 0, 20, wxDefaultPosition, wxDefaultSize, wxSL_HORIZONTAL );
-	bSizer31114->Add( cZ_slider, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
-
-	cZ_value = new wxStaticText( this, wxID_ANY, wxT("1  "), wxDefaultPosition, wxDefaultSize, 0 );
-	cZ_value->Wrap( -1 );
-	bSizer31114->Add( cZ_value, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
-
-
-	bSizer2->Add( bSizer31114, 1, wxEXPAND, 5 );
-
-	wxBoxSizer* bSizer31115;
-	bSizer31115 = new wxBoxSizer( wxHORIZONTAL );
-
-	shiftZ_text = new wxStaticText( this, wxID_ANY, wxT("f"), wxDefaultPosition, wxDefaultSize, 0 );
-	shiftZ_text->Wrap( -1 );
-	bSizer31115->Add( shiftZ_text, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
-
-	shiftZ_slider = new wxSlider( this, wxID_ANY, 0, 0, 360, wxDefaultPosition, wxDefaultSize, wxSL_HORIZONTAL );
-	bSizer31115->Add( shiftZ_slider, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
-
-	shiftZ_value = new wxStaticText( this, wxID_ANY, wxT("0  "), wxDefaultPosition, wxDefaultSize, 0 );
-	shiftZ_value->Wrap( -1 );
-	bSizer31115->Add( shiftZ_value, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
-
-
-	bSizer2->Add( bSizer31115, 1, wxEXPAND, 5 );
+	m_staticText32 = new wxStaticText( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText32->Wrap( -1 );
+	bSizer2->Add( m_staticText32, 99, wxALL, 5 );
 
 
 	bSizer1->Add( bSizer2, 0, wxALL, 5 );
@@ -319,7 +335,6 @@ Frame::Frame( wxWindow* parent, wxWindowID id, const wxString& title, const wxPo
 	rotationZ_slider->Connect( wxEVT_SCROLL_THUMBRELEASE, wxScrollEventHandler( Frame::rotationZ_Update ), NULL, this );
 	rotationZ_slider->Connect( wxEVT_SCROLL_CHANGED, wxScrollEventHandler( Frame::rotationZ_Update ), NULL, this );
 	drawingMethod_RadioBox->Connect( wxEVT_COMMAND_RADIOBOX_SELECTED, wxCommandEventHandler( Frame::sposobRysowania_update ), NULL, this );
-	coordinates_RadioBox->Connect( wxEVT_COMMAND_RADIOBOX_SELECTED, wxCommandEventHandler( Frame::coordinates_update ), NULL, this );
 	amplitudeX_slider->Connect( wxEVT_SCROLL_TOP, wxScrollEventHandler( Frame::A_update ), NULL, this );
 	amplitudeX_slider->Connect( wxEVT_SCROLL_BOTTOM, wxScrollEventHandler( Frame::A_update ), NULL, this );
 	amplitudeX_slider->Connect( wxEVT_SCROLL_LINEUP, wxScrollEventHandler( Frame::A_update ), NULL, this );
@@ -401,6 +416,7 @@ Frame::Frame( wxWindow* parent, wxWindowID id, const wxString& title, const wxPo
 	shiftZ_slider->Connect( wxEVT_SCROLL_THUMBTRACK, wxScrollEventHandler( Frame::f_c_update ), NULL, this );
 	shiftZ_slider->Connect( wxEVT_SCROLL_THUMBRELEASE, wxScrollEventHandler( Frame::f_c_update ), NULL, this );
 	shiftZ_slider->Connect( wxEVT_SCROLL_CHANGED, wxScrollEventHandler( Frame::f_c_update ), NULL, this );
+	coordinates_RadioBox->Connect( wxEVT_COMMAND_RADIOBOX_SELECTED, wxCommandEventHandler( Frame::coordinates_update ), NULL, this );
 }
 
 Frame::~Frame()
@@ -435,7 +451,6 @@ Frame::~Frame()
 	rotationZ_slider->Disconnect( wxEVT_SCROLL_THUMBRELEASE, wxScrollEventHandler( Frame::rotationZ_Update ), NULL, this );
 	rotationZ_slider->Disconnect( wxEVT_SCROLL_CHANGED, wxScrollEventHandler( Frame::rotationZ_Update ), NULL, this );
 	drawingMethod_RadioBox->Disconnect( wxEVT_COMMAND_RADIOBOX_SELECTED, wxCommandEventHandler( Frame::sposobRysowania_update ), NULL, this );
-	coordinates_RadioBox->Disconnect( wxEVT_COMMAND_RADIOBOX_SELECTED, wxCommandEventHandler( Frame::coordinates_update ), NULL, this );
 	amplitudeX_slider->Disconnect( wxEVT_SCROLL_TOP, wxScrollEventHandler( Frame::A_update ), NULL, this );
 	amplitudeX_slider->Disconnect( wxEVT_SCROLL_BOTTOM, wxScrollEventHandler( Frame::A_update ), NULL, this );
 	amplitudeX_slider->Disconnect( wxEVT_SCROLL_LINEUP, wxScrollEventHandler( Frame::A_update ), NULL, this );
@@ -517,5 +532,6 @@ Frame::~Frame()
 	shiftZ_slider->Disconnect( wxEVT_SCROLL_THUMBTRACK, wxScrollEventHandler( Frame::f_c_update ), NULL, this );
 	shiftZ_slider->Disconnect( wxEVT_SCROLL_THUMBRELEASE, wxScrollEventHandler( Frame::f_c_update ), NULL, this );
 	shiftZ_slider->Disconnect( wxEVT_SCROLL_CHANGED, wxScrollEventHandler( Frame::f_c_update ), NULL, this );
+	coordinates_RadioBox->Disconnect( wxEVT_COMMAND_RADIOBOX_SELECTED, wxCommandEventHandler( Frame::coordinates_update ), NULL, this );
 
 }

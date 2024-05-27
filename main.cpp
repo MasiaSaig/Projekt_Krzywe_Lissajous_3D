@@ -1,6 +1,13 @@
 #include <wx/wxprec.h>
 #include "KrzyweLissajousaFrame.h"
 
+// Mo¿liwe ulepszenia:
+/*
+	- wyœwietlanie dzia³añ matematycznych (pomocne https://github.com/NanoMichael/MicroTeX)
+	- animacja wyœwietlania wykresów
+	- animacja wykresu podczas zmiany parametrów, zamiast rysowanie od nowa
+*/
+
 class MyApp : public wxApp {
 
 public:
