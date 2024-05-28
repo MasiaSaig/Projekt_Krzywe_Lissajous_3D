@@ -50,7 +50,7 @@ KrzyweLissajousaFrame::~KrzyweLissajousaFrame()
 	delete[] _data_points;
 }
 
-
+// ----------------- funkcje pomocnicze --------------------------
 static std::string double_to_string(double val) {
 	std::string amp = std::to_string(val);
 	amp.erase(amp.find_last_not_of('0') + 1, std::string::npos);
@@ -60,6 +60,21 @@ static std::string double_to_string(double val) {
 inline static double degrees_to_radians(int deg) {
 	return deg * PI / 180.0;
 }
+
+/**
+ * @brief Funkcja zmieniająca współrzędne biegunowe na punkty (x,y,z), aby można je było wyrysować w oknie
+ * @param r długość
+ * @param theta kąt na płaszczyźnie xy
+ * @param phi kąt na płaszczyźnie yz
+ */
+static void polar_to_xyz(double& r, double& theta, double& phi) {
+	double x, y, z;
+	x = r * cos(theta) * cos(phi);
+	y = r * cos(theta) * sin(phi);
+	z = r * sin(theta);
+	r = x; theta = y; phi = z;
+}
+
 
 
 /**
@@ -110,19 +125,14 @@ void KrzyweLissajousaFrame::sposobRysowania_update(wxCommandEvent& event) {
  */
 void KrzyweLissajousaFrame::coordinates_update(wxCommandEvent& event) {
 	if (coordinates_RadioBox->GetSelection() == 0) {
-		// TODO: schowaj statyczny tekst r(t), theta(t), phi(t)
 		function_r->SetLabel(L"");
 		function_theta->SetLabel(L"");
 		function_phi->SetLabel(L"");
 	}
 	else {
-		// TODO: zmiana współrzędnych na biegunowe ?sferyczne raczej
-		// oraz pokaż statyczny tekst r(t), theta(t), phi(t)
 		function_r->SetLabel(L"r=sqrt(x\u00B2 + y\u00B2 + z\u00B2)");
 		function_theta->SetLabel(L"\u03B8 = arccos(z/r)");
 		function_phi->SetLabel(L"\u03C6 = arctan 2(y,z)");
-		
-		
 	}
 	_coordinates = !_coordinates;
 	Repaint();
@@ -237,7 +247,7 @@ static void line2d(Matrix4d t, double* x1, double* y1, double* z1, double* x2, d
 	v1 = t * v1;
 	*x1 = v1[0] / v1[3];
 	*y1 = v1[1] / v1[3];
-	*z1 = v1[2] / (v1[3]);	// * 2.0
+	*z1 = v1[2] / (v1[3]);
 	v1[0] = *x2;
 	v1[1] = *y2;
 	v1[2] = *z2;
@@ -245,7 +255,15 @@ static void line2d(Matrix4d t, double* x1, double* y1, double* z1, double* x2, d
 	v1 = t * v1;
 	*x2 = v1[0] / v1[3];
 	*y2 = v1[1] / v1[3];
-	*z2 = v1[2] / (v1[3]);	//  * 2.0
+	*z2 = v1[2] / (v1[3]);
+}
+
+static void point2d(Matrix4d t, double* x1, double* y1, double* z1) {
+	Vector4d v1(*x1, *y1, *z1);
+	v1 = t * v1;
+	*x1 = v1[0] / v1[3];
+	*y1 = v1[1] / v1[3];
+	*z1 = v1[2] / (v1[3]);
 }
 // ------------------------------------
 
@@ -274,7 +292,7 @@ double KrzyweLissajousaFrame::functionZ(double t) const {
 	return _ampZ * sin(_cZ * t + _shiftZ);
 }
 
-// https://chatgpt.com/share/c05d3d8a-1e57-409e-89f6-9022943b7645 =)
+// =) https://chatgpt.com/share/c05d3d8a-1e57-409e-89f6-9022943b7645
 // TODO: optymalizacja, jakaś konwersja współrzędnych żeby nie obliczać np. functionX(t) kilka razy
 double KrzyweLissajousaFrame::functionR(double t) const {
 	return sqrt(pow(functionX(t), 2) + pow(functionY(t), 2) + pow(functionZ(t), 2));
@@ -320,18 +338,28 @@ void KrzyweLissajousaFrame::Repaint() {
 		https://youtu.be/nuGpVppgV7c?si=UJqiCyuynRl-TThT&t=61
 	*/
 
+
 	// sprawdzenie wyrysowania, bez animacji zależnej od czasu
 
 	// TODO: optymalizacja. Przeniesienie obliczania punktów tylko podczas zmiany parametrów
 	double* temp_t = new double[_nodes];
-	for (int i = 0; i < _nodes; ++i) {
-		temp_t[i] = 2.0 * PI * i / static_cast<double>(_nodes);	// 200 punktów w zakresie od 0 do 2*PI
-		_data_points[i][0] = functionX(temp_t[i]);
-		_data_points[i][1] = functionY(temp_t[i]);
-		_data_points[i][2] = functionZ(temp_t[i]);
+	if (_coordinates) {	// współrzędne r, theta, phi
+		for (int i = 0; i < _nodes; ++i) {
+			temp_t[i] = 2.0 * PI * i / static_cast<double>(_nodes);	// 200 punktów w zakresie od 0 do 2*PI
+			_data_points[i][0] = functionR(temp_t[i]);
+			_data_points[i][1] = functionTheta(temp_t[i], _data_points[i][0]);
+			_data_points[i][2] = functionPhi(temp_t[i]);
+			polar_to_xyz(_data_points[i][0], _data_points[i][1], _data_points[i][2]);
+		}
+	}else {				// współrzędne x, y, z
+		for (int i = 0; i < _nodes; ++i) {
+			temp_t[i] = 2.0 * PI * i / static_cast<double>(_nodes);	// 200 punktów w zakresie od 0 do 2*PI
+			_data_points[i][0] = functionX(temp_t[i]);
+			_data_points[i][1] = functionY(temp_t[i]);
+			_data_points[i][2] = functionZ(temp_t[i]);
+		}
 	}
-
-
+	
 	double Sx = panelSize.x / 2.0;
 	double Sy = panelSize.y / 2.0;
 	double Sz = 1.0;
@@ -366,15 +394,26 @@ void KrzyweLissajousaFrame::Repaint() {
 	// rysowanie odcinków
 	double x1, y1, z1, x2, y2, z2;
 	dc.SetPen(wxPen(RGB(0, 0, 0)));
-	for (int i = 0; i < _nodes - 1; ++i) {
-		x1 = -_data_points[i][0]; y1 = _data_points[i][1]; z1 = -_data_points[i][2];
-		x2 = -_data_points[i + 1][0]; y2 = _data_points[i + 1][1]; z2 = -_data_points[i + 1][2];
+	if (_drawingMethod) {	// rysowanie odcinków
+		for (int i = 0; i < _nodes - 1; ++i) {
+			x1 = -_data_points[i][0]; y1 = _data_points[i][1]; z1 = -_data_points[i][2];
+			x2 = -_data_points[i + 1][0]; y2 = _data_points[i + 1][1]; z2 = -_data_points[i + 1][2];
 
-		// TODO: rysowanie punktów lub odcinków w zależności od wyboru użytkownika
-		line2d(transform_matrix_before_scale, &x1, &y1, &z1, &x2, &y2, &z2);
-		if ((z1 > 1) && (z2 > 1)) {	// zapobiega wyrysowanu odcinków/punktów za ekranem wyświetlania
-			line2d(transform_matrix, &x1, &y1, &z1, &x2, &y2, &z2);
-			dc.DrawLine(x1, y1, x2, y2);
+			line2d(transform_matrix_before_scale, &x1, &y1, &z1, &x2, &y2, &z2);
+			if ((z1 > 1) && (z2 > 1)) {	// zapobiega wyrysowanu odcinków za ekranem wyświetlania
+				line2d(transform_matrix, &x1, &y1, &z1, &x2, &y2, &z2);
+				dc.DrawLine(x1, y1, x2, y2);
+			}
+		}
+	}else {		// rysowanie punktów
+		for (int i = 0; i < _nodes - 1; ++i) {
+			x1 = -_data_points[i][0]; y1 = _data_points[i][1]; z1 = -_data_points[i][2];
+
+			point2d(transform_matrix_before_scale, &x1, &y1, &z1);
+			if (z1 > 1) {	// zapobiega wyrysowanu punktów za ekranem wyświetlania
+				point2d(transform_matrix, &x1, &y1, &z1);
+				dc.DrawCircle({static_cast<int>(x1), static_cast<int>(y1)}, 1);
+			}
 		}
 	}
 	// rysowanie odcinków osi

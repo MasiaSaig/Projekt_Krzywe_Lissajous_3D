@@ -73,9 +73,9 @@ class KrzyweLissajousaFrame : public Frame
 		int _aX;	/** a funkcji x(t). */
 		int _bY;	/** b funkcji y(t). */
 		int _cZ;	/** c funkcji z(t). */
-		int _shiftX;	/** Przesunięcie funkcji x(t). */
-		int _shiftY;	/** Przesunięcie funkcji y(t). */
-		int _shiftZ;	/** Przesunięcie funkcji z(t). */
+		double _shiftX;	/** Przesunięcie funkcji x(t). */
+		double _shiftY;	/** Przesunięcie funkcji y(t). */
+		double _shiftZ;	/** Przesunięcie funkcji z(t). */
 
 		const unsigned int _nodes = 200;	/** Liczba węzłów do narysowania. */
 		/** Tablica przechowująca punkty.
