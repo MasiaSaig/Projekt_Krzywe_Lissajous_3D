@@ -41,14 +41,32 @@ class KrzyweLissajousaFrame : public Frame
 		KrzyweLissajousaFrame( wxWindow* parent );
 	//// end generated class members
 
+		/**
+		 * @brief Funkcja obliczająca wartość X, dla określonej amplitudy, 'a' oraz kąta przesunięcia.
+		 * @param[in] t Czas.
+		 * @return Wartość, zależna od podanego t.
+		 */
 		double functionX(double t) const;
+		/**
+		 * @brief Funkcja obliczająca wartość Y, dla określonej amplitudy, 'b' oraz kąta przesunięcia.
+		 * @param[in] t Czas.
+		 * @return Wartość, zależna od podanego t.
+		 */
 		double functionY(double t) const;
+		/**
+		 * @brief Funkcja obliczająca wartość X, dla określonej amplitudy, 'c' oraz kąta przesunięcia.
+		 * @param[in] t Czas.
+		 * @return Wartość, zależna od podanego t.
+		 */
 		double functionZ(double t) const;
 
 		double functionR(double t) const;
 		double functionTheta(double t, double r) const;
 		double functionPhi(double t) const;
 
+		/**
+		 * @brief Funkcja rysująca krzywe Lissajousa i wszystkiego co znajduje się w drawingPanel.
+		 */
 		void Repaint();
 		~KrzyweLissajousaFrame();
 	private:

@@ -19,10 +19,11 @@ KrzyweLissajousaFrame::KrzyweLissajousaFrame(wxWindow* parent)
 	_axis_points[3][0] = _axis_points[0][0]; _axis_points[3][1] = _axis_points[0][1]; _axis_points[3][2] = amplitudeZ_slider->GetMax() / 10.0 + 1;
 
 
-	SetMinSize({ 625, 750 });
+	this->SetMinSize({ 625, 750 });
 	this->SetBackgroundColour(wxColor(192, 192, 192));
+	this->wxTopLevelWindow::SetTitle(wxVERSION_STRING);
 
-	// przypisanie napisów z kodami unicode, etykietom(static text)
+	// przypisanie etykietom(static text) napisów z kodami unicode
 	coordinates_RadioBox->SetLabel(L"Wsp\u00f3rz\u0119dne");
 	drawingMethod_RadioBox->SetLabel(L"Spos\u00f3b rysowania");
 	rotationX_text->SetLabel(L"Obr\u00f3t X");
@@ -51,12 +52,22 @@ KrzyweLissajousaFrame::~KrzyweLissajousaFrame()
 }
 
 // ----------------- funkcje pomocnicze --------------------------
+/**
+ * @brief Funkcja pomocnicza, usuwająca zeroa po przecinku, aby nie były one wyświetlane na graficznym interfejsie
+ * @param val Wartość (double) której zera trzeba 'obciąć'.
+ * @return String wartości double, z obciętymi (niepotrzebnymi) zerami na końcu.
+ */
 static std::string double_to_string(double val) {
 	std::string amp = std::to_string(val);
 	amp.erase(amp.find_last_not_of('0') + 1, std::string::npos);
 	amp.erase(amp.find_last_not_of('.') + 1, std::string::npos);
 	return amp;
 }
+/**
+ * @brief Funkcja pomocnicza, zmieniająca stopnie na radiany.
+ * @param deg Wartość (int) stopni (0 - 360).
+ * @return Wartość (double) radianów.
+ */
 inline static double degrees_to_radians(int deg) {
 	return deg * PI / 180.0;
 }
@@ -74,7 +85,7 @@ static void polar_to_xyz(double& r, double& theta, double& phi) {
 	z = r * sin(theta);
 	r = x; theta = y; phi = z;
 }
-
+// -------------------------------------------------------------
 
 
 /**
@@ -238,6 +249,8 @@ void KrzyweLissajousaFrame::f_c_update(wxScrollEvent& event) {
 }
 
 
+// ----------------------------------------------------------------------------------------------
+
 /**
  * @brief Zastosowanie podanej macierzy transformacji, na podanych dwóch punktach.
  * @param t Macierz transformacji o wymiarach 4x4, typu Matrix4d.
@@ -258,6 +271,10 @@ static void line2d(Matrix4d t, double* x1, double* y1, double* z1, double* x2, d
 	*z2 = v1[2] / (v1[3]);
 }
 
+/**
+ * @brief Zastosowanie podanej macierzy transformacji, na podanym punkcie punktach.
+ * @param t Macierz transformacji o wymiarach 4x4, typu Matrix4d.
+ */
 static void point2d(Matrix4d t, double* x1, double* y1, double* z1) {
 	Vector4d v1(*x1, *y1, *z1);
 	v1 = t * v1;
@@ -265,28 +282,29 @@ static void point2d(Matrix4d t, double* x1, double* y1, double* z1) {
 	*y1 = v1[1] / v1[3];
 	*z1 = v1[2] / (v1[3]);
 }
-// ------------------------------------
 
 /**
- * @brief Funkcja obliczająca wartość X, dla określonej amplitudy, 'a' oraz kąta przesunięcia.
- * @param[in] t Czas.
- * @return Wartość, zależna od podanego t.
+ * @brief Funkcja obliczająca współrzędną x.
+ * @param t Czas (double) dla której wyznaczana jest wartość x.
+ * @return obliczona wartość współrzędnej x.
  */
 double KrzyweLissajousaFrame::functionX(double t) const {
 	return _ampX * sin(_aX * t + _shiftX);
 }
+
 /**
- * @brief Funkcja obliczająca wartość Y, dla określonej amplitudy, 'b' oraz kąta przesunięcia.
- * @param[in] t Czas.
- * @return Wartość, zależna od podanego t.
+ * @brief Funkcja obliczająca współrzędną y.
+ * @param t Czas (double) dla której wyznaczana jest wartość y.
+ * @return obliczona wartość współrzędnej y.
  */
 double KrzyweLissajousaFrame::functionY(double t) const {
 	return _ampY * sin(_bY * t + _shiftY);
 }
+
 /**
- * @brief Funkcja obliczająca wartość X, dla określonej amplitudy, 'c' oraz kąta przesunięcia.
- * @param[in] t Czas.
- * @return Wartość, zależna od podanego t.
+ * @brief Funkcja obliczająca współrzędną z.
+ * @param t Czas (double) dla której wyznaczana jest wartość z.
+ * @return obliczona wartość współrzędnej z.
  */
 double KrzyweLissajousaFrame::functionZ(double t) const {
 	return _ampZ * sin(_cZ * t + _shiftZ);
@@ -302,7 +320,7 @@ double KrzyweLissajousaFrame::functionTheta(double t, double r) const {
 }
 double KrzyweLissajousaFrame::functionPhi(double t) const {
 	// return atan(2.0 * functionY(t));
-	return atan(2.0 * functionX(t));
+	return atan(2.0 * functionY(t));
 }
 
 /**
@@ -313,9 +331,7 @@ void KrzyweLissajousaFrame::OnSizeChange(wxSizeEvent& event) {
 	Repaint();
 }
 
-/**
- * @brief Funkcja rysująca krzywe Lissajousa w drawingPanel.
- */
+
 void KrzyweLissajousaFrame::Repaint() {
 	// TODO: Implement Repaint
 
