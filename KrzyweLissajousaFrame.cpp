@@ -131,10 +131,10 @@ void KrzyweLissajousaFrame::updateMatrixes() {
 
 	// przesunięcie układu do tyłu ekranu (w stronę + osi Z)
 	_transform_matrix_before_scale = macierzTranslacji(0, 0, z_axis_shift);
-	_transform_matrix_before_scale = _transform_matrix_before_scale * macierzObrotuX(325);
-	_transform_matrix_before_scale = _transform_matrix_before_scale * macierzObrotuY(325);
+	// początkowe obrócenie układu i współrzędnych
+	_transform_matrix_before_scale = _transform_matrix_before_scale * macierzObrotuX(335);
+	_transform_matrix_before_scale = _transform_matrix_before_scale * macierzObrotuY(335);
 
-	
 	// skopiowanie macierzy transformacji przed obróceniem do macierzy transformacji osi
 	// aby zapobiez zastosowaniu obrodu do osi współrzędnych
 	_transform_matrix_before_scale_axis = _transform_matrix_before_scale;
@@ -470,7 +470,6 @@ void KrzyweLissajousaFrame::Repaint() {
 	// TODO: Sprawdzenie czy krzywe we współrzędnych biegunowych, dobrze się rysują
 	// TODO: przesunięcie punktów biegunowych aby nie wystawały za ekran rysowania
 	// TODO: Dodanie wartości na osiach 
-	// TODO: Jakoś zapobies efektowu Fish Eye? jeśli dobrze to nazywam
 
 	double x1, y1, z1, x2, y2, z2;
 	dc.SetPen(wxPen(RGB(0, 0, 0)));

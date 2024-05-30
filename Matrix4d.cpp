@@ -102,6 +102,7 @@ Matrix4d macierzSkalowania(double sx, double sy, double sz) {
 
 Matrix4d macierzRzutowania3Dna2D(double left, double right, double top, double bottom, double near_, double far_) {
 	Matrix4d trans;
+	// rzutowanie aksiomatyczne
 	trans[0][0] = 2.0 * near_ / (right - left);
 	trans[0][2] = (right + left) / (right - left);
 	trans[1][1] = 2.0 * near_ / (top - bottom);
@@ -110,6 +111,16 @@ Matrix4d macierzRzutowania3Dna2D(double left, double right, double top, double b
 	trans[2][3] = -2.0 * far_ * near_ / (far_ - near_);
 	trans[3][2] = -1.0;
 	trans[3][3] = 0.0;
+
+	// rzutowanie prostok¹tne
+	/*trans[0][0] = 2.0 / (right - left);
+	trans[0][2] = (right + left) / (right - left);
+	trans[1][1] = 2.0 / (top - bottom);
+	trans[1][2] = (top + bottom) / (top - bottom);
+	trans[2][2] = -2.0 / (far_ - near_);
+	trans[2][3] = (far_ + near_) / (far_ - near_);
+	trans[3][2] = -1.0;
+	trans[3][3] = 0.0;*/
 
 	return trans;
 }
