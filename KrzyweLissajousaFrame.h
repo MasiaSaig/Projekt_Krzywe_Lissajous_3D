@@ -63,7 +63,8 @@ class KrzyweLissajousaFrame : public Frame
 		double functionR(double t) const;
 		double functionTheta(double t, double r) const;
 		double functionPhi(double t) const;
-
+		
+		void updateMatrixes();
 		/**
 		 * @brief Funkcja rysująca krzywe Lissajousa i wszystkiego co znajduje się w drawingPanel.
 		 */
@@ -97,23 +98,22 @@ class KrzyweLissajousaFrame : public Frame
 
 		const unsigned int _nodes = 200;	/** Liczba węzłów do narysowania. */
 		/** Tablica przechowująca punkty.
-		* _data_points[][0] - punkt x
-		* _data_points[][1] - punkt y
-		* _data_points[][2] - punkt z
+		* _data_points[][0] - współrzędna x
+		* _data_points[][1] - współrzędna y
+		* _data_points[][2] - współrzędna z
 		*/
 		double(*_data_points)[3];
 		/** Tablica przechowująca punkty początku i końców oś współrzędnych.
-		* _axis_points[0][] - wspołrzędne punktu początkowego, przyjmującego najmniejszej wartości x, y, z
-		* _axis_points[][0] - punkt x
-		* _axis_points[][1] - punkt y
-		* _axis_points[][2] - punkt z
+		* _axis_points[0][] - wspołrzędne (x, y, z) punktu początkowego 
+		* _axis_points[][0] - współrzędna x
+		* _axis_points[][1] - współrzędna y
+		* _axis_points[][2] - współrzędna z
 		*/
-		double _axis_points[4][3];
+		double _axis_points[6][3];
 
-
-
-
-
+		Matrix4d _transform_matrix_before_scale;
+		Matrix4d _transform_matrix_before_scale_axis;
+		Matrix4d _transform_matrix;
 
 
 
