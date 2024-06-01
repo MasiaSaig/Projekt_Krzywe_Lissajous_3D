@@ -8,12 +8,13 @@
  */
 std::string double_to_string(double val);
 
+
+constexpr double PI = 3.14159265;
 /**
  * @brief Funkcja pomocnicza, zmieniaj¹ca stopnie na radiany.
  * @param deg Wartoœæ (int) stopni (0 - 360).
  * @return Wartoœæ (double) radianów.
  */
-constexpr double PI = 3.14159265;
 inline double degrees_to_radians(int deg) { return deg * PI / 180.0; }
 
 /**

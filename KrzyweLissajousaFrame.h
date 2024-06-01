@@ -61,21 +61,46 @@ class KrzyweLissajousaFrame : public Frame
 		 */
 		double functionZ(double t) const;
 
+		/**
+		 * @brief Funkcja obliczająca wartość R, czyli długość wektora we współrzędnych biegunowych.
+		 * @param[in] t Czas.
+		 * @return Obliczona wartość R, zależna od podanego t.
+		 */
 		double functionR(double t) const;
+		/**
+		 * @brief Funkcja obliczająca wartość Theta, czyli stopień kąta obrotu na płaszczyźnie XZ we współrzędnych biegunowych.
+		 * @param[in] t Czas.
+		 * @return Obliczona wartość theta, zależna od podanego t.
+		 */
 		double functionTheta(double t, double r) const;
+		/**
+		 * @brief Funkcja obliczająca wartość Phi, czyli stopień kąta obrotu na płaszczyźnie XY we współrzędnych biegunowych.
+		 * @param[in] t Czas.
+		 * @return Obliczona wartość Phi, zależna od podanego t.
+		 */
 		double functionPhi(double t) const;
 		
 		/**
 		 * @brief Funkcja aktualizująca macierze i punkty do wyrysowania osi.
 		 */
 		void updateDataForDrawing();
+		
+		/**
+		 * @brief Funkcja obliczająca punkty dla współrzędnych biegunowych (r, theta, phi).
+		 */
+		void calculateCartesianCoordinates();
+		/**
+		 * @brief Funkcja obliczająca punkty dla współrzędnych kartezjańskich (x, y, z).
+		 */
+		void RepaintBipolarCoordinates();
 		/**
 		 * @brief Funkcja rysująca krzywe Lissajousa i wszystkiego co znajduje się w drawingPanel.
 		 */
 		void Repaint();
-		void calculateCartesianCoordinates();
-		void RepaintBipolarCoordinates();
-
+		
+		/**
+		 * @brief Destruktor zwalniający zaalokowaną pamięć.
+		 */
 		~KrzyweLissajousaFrame();
 	private:
 		/** Zmienna(bool) wskazująca które współrzędne zostały wybrane przez użytkownika.
@@ -85,8 +110,8 @@ class KrzyweLissajousaFrame : public Frame
 		bool _coordinates_bipilar;
 
 		/** Zmienna(bool) wskazująca sposób rysowania krzywych Lissajousa.
-		* == false(0) punkty
 		* == true(1) odcinki
+		* == false(0) punkty
 		*/
 		bool _drawingMethod;
 		int _angleX;	/** Kąt obrotu wykresu względem osi OX. */
@@ -118,8 +143,11 @@ class KrzyweLissajousaFrame : public Frame
 		*/
 		double _axis_points[6][3];
 
+		/** Macierz stosowana dla punktów krzywych Lissajousa, przed skalująca wielkości/odległości dla ekranu. */
 		Matrix4d _transform_matrix_before_scale;
+		/** Macierz stosowana dla osi współrzędnych, przed skalująca wielkości/odległości dla ekranu. */
 		Matrix4d _transform_matrix_before_scale_axis;
+		/** Macierz skalująca punkty, aby pasowały do panelu, ekranu. */
 		Matrix4d _transform_matrix;
 
 };
