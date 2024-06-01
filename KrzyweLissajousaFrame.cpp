@@ -87,7 +87,7 @@ void KrzyweLissajousaFrame::updateDataForDrawing() {
 		_axis_points[5][2] = _axis_points[1][2];
 	}
 	else {
-		z_axis_shift = 2.0 * amplitudeZ_slider->GetMax() / 10.0;
+		z_axis_shift = (2.0 * amplitudeZ_slider->GetMax() / 10.0) + 2.0;
 		_axis_points[0][0] = -amplitudeX_slider->GetMax() / 10.0;
 		_axis_points[0][1] = amplitudeY_slider->GetMax() / 10.0;
 		_axis_points[0][2] = -amplitudeZ_slider->GetMax() / 10.0;
