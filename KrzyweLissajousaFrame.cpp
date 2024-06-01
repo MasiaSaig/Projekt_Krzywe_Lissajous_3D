@@ -1,9 +1,9 @@
 #include "KrzyweLissajousaFrame.h"
 
-constexpr double PI = 3.14159265;
+//constexpr double PI = 3.14159265;
 
 KrzyweLissajousaFrame::KrzyweLissajousaFrame(wxWindow* parent)
-	: _coordinates{ false }, _drawingMethod{ false },
+	: _coordinates_bipilar{ false }, _drawingMethod{ false },
 	_ampX{ 1 }, _ampY{ 1 }, _ampZ{ 1 },
 	_aX{ 1 }, _bY{ 1 }, _cZ{ 1 },
 	_shiftX{ 0 }, _shiftY{ 0 }, _shiftZ{ 0 },
@@ -13,30 +13,6 @@ KrzyweLissajousaFrame::KrzyweLissajousaFrame(wxWindow* parent)
 	// ustawienie punktów
 	_data_points = new double[_nodes][3];
 	// ustawienie punktów osi, na najniższe wartości, !nie środek układu, tj. nie punkt (0,0,0)!
-	_axis_points[0][0] = -amplitudeX_slider->GetMax() / 10.0;
-	_axis_points[0][1] = amplitudeY_slider->GetMax() / 10.0;
-	_axis_points[0][2] = -amplitudeZ_slider->GetMax() / 10.0;
-
-	_axis_points[1][0] = -amplitudeX_slider->GetMax() / 10.0;
-	_axis_points[1][1] = -amplitudeY_slider->GetMax() / 10.0;
-	_axis_points[1][2] = -amplitudeZ_slider->GetMax() / 10.0;
-
-	_axis_points[2][0] = amplitudeX_slider->GetMax() / 10.0;
-	_axis_points[2][1] = -amplitudeY_slider->GetMax() / 10.0;
-	_axis_points[2][2] = -amplitudeZ_slider->GetMax() / 10.0;
-
-	_axis_points[3][0] = amplitudeX_slider->GetMax() / 10.0;
-	_axis_points[3][1] = -amplitudeY_slider->GetMax() / 10.0;
-	_axis_points[3][2] = amplitudeZ_slider->GetMax() / 10.0;
-
-	_axis_points[4][0] = -amplitudeY_slider->GetMax() / 10.0;
-	_axis_points[4][1] = -amplitudeY_slider->GetMax() / 10.0;
-	_axis_points[4][2] = amplitudeY_slider->GetMax() / 10.0;
-
-	_axis_points[5][0] = _axis_points[1][0];
-	_axis_points[5][1] = _axis_points[1][1];
-	_axis_points[5][2] = _axis_points[1][2];
-
 
 	this->SetMinSize({ 625, 750 });
 	this->SetBackgroundColour(wxColor(192, 192, 192));
@@ -62,6 +38,7 @@ KrzyweLissajousaFrame::KrzyweLissajousaFrame(wxWindow* parent)
 	coordinates_RadioBox->SetSelection(0);	// ponownie wybiera (x,y,z)
 	drawingMethod_RadioBox->SetSelection(0);
 
+	updateDataForDrawing();
 	Repaint();
 }
 
@@ -70,51 +47,72 @@ KrzyweLissajousaFrame::~KrzyweLissajousaFrame()
 	delete[] _data_points;
 }
 
-// ----------------- funkcje pomocnicze --------------------------
 /**
- * @brief Funkcja pomocnicza, usuwająca zeroa po przecinku, aby nie były one wyświetlane na graficznym interfejsie
- * @param val Wartość (double) której zera trzeba 'obciąć'.
- * @return String wartości double, z obciętymi (niepotrzebnymi) zerami na końcu.
+ * @brief Funkcja aktualizująca macierze transformacji, dla punktów krzywych Lissajousa.
  */
-static std::string double_to_string(double val) {
-	std::string amp = std::to_string(val);
-	amp.erase(amp.find_last_not_of('0') + 1, std::string::npos);
-	amp.erase(amp.find_last_not_of('.') + 1, std::string::npos);
-	return amp;
-}
-/**
- * @brief Funkcja pomocnicza, zmieniająca stopnie na radiany.
- * @param deg Wartość (int) stopni (0 - 360).
- * @return Wartość (double) radianów.
- */
-inline static double degrees_to_radians(int deg) {
-	return deg * PI / 180.0;
-}
-
-/**
- * @brief Funkcja zmieniająca współrzędne biegunowe na punkty (x,y,z), aby można je było wyrysować w oknie
- * @param r długość
- * @param theta kąt na płaszczyźnie xy
- * @param phi kąt na płaszczyźnie yz
- */
-static void polar_to_xyz(double& r, double& theta, double& phi) {
-	double x, y, z;
-	x = r * cos(theta) * cos(phi);
-	y = r * cos(theta) * sin(phi);
-	z = r * sin(theta);
-	r = x; theta = y; phi = z;
-}
-// -------------------------------------------------------------
-
-
-void KrzyweLissajousaFrame::updateMatrixes() {
+void KrzyweLissajousaFrame::updateDataForDrawing() {
 	wxSize panelSize = drawingPanel->GetSize();
 	double Sx = panelSize.x / 2.0;
 	double Sy = panelSize.y / 2.0;
 	double Sz = 1.0;
 
-	//Matrix4d _transform_matrix_before_scale, _transform_matrix;
-	constexpr double z_axis_shift = 24.0;
+	
+	double z_axis_shift;
+	if (_coordinates_bipilar) {
+		double max_amplitude = sqrt((pow(amplitudeX_slider->GetMax(), 2) + pow(amplitudeY_slider->GetMax(), 2) + pow(amplitudeZ_slider->GetMax(), 2)) / 100.0);
+		z_axis_shift = 2.0 * max_amplitude;
+
+		_axis_points[0][0] = -max_amplitude;
+		_axis_points[0][1] = max_amplitude;
+		_axis_points[0][2] = -max_amplitude;
+
+		_axis_points[1][0] = -max_amplitude;
+		_axis_points[1][1] = -max_amplitude;
+		_axis_points[1][2] = -max_amplitude;
+
+		_axis_points[2][0] = max_amplitude;
+		_axis_points[2][1] = -max_amplitude;
+		_axis_points[2][2] = -max_amplitude;
+
+		_axis_points[3][0] = max_amplitude;
+		_axis_points[3][1] = -max_amplitude;
+		_axis_points[3][2] = max_amplitude;
+
+		_axis_points[4][0] = -max_amplitude;
+		_axis_points[4][1] = -max_amplitude;
+		_axis_points[4][2] = max_amplitude;
+
+		_axis_points[5][0] = _axis_points[1][0];
+		_axis_points[5][1] = _axis_points[1][1];
+		_axis_points[5][2] = _axis_points[1][2];
+	}
+	else {
+		z_axis_shift = 2.0 * amplitudeZ_slider->GetMax() / 10.0;
+		_axis_points[0][0] = -amplitudeX_slider->GetMax() / 10.0;
+		_axis_points[0][1] = amplitudeY_slider->GetMax() / 10.0;
+		_axis_points[0][2] = -amplitudeZ_slider->GetMax() / 10.0;
+
+		_axis_points[1][0] = -amplitudeX_slider->GetMax() / 10.0;
+		_axis_points[1][1] = -amplitudeY_slider->GetMax() / 10.0;
+		_axis_points[1][2] = -amplitudeZ_slider->GetMax() / 10.0;
+
+		_axis_points[2][0] = amplitudeX_slider->GetMax() / 10.0;
+		_axis_points[2][1] = -amplitudeY_slider->GetMax() / 10.0;
+		_axis_points[2][2] = -amplitudeZ_slider->GetMax() / 10.0;
+
+		_axis_points[3][0] = amplitudeX_slider->GetMax() / 10.0;
+		_axis_points[3][1] = -amplitudeY_slider->GetMax() / 10.0;
+		_axis_points[3][2] = amplitudeZ_slider->GetMax() / 10.0;
+
+		_axis_points[4][0] = -amplitudeY_slider->GetMax() / 10.0;
+		_axis_points[4][1] = -amplitudeY_slider->GetMax() / 10.0;
+		_axis_points[4][2] = amplitudeY_slider->GetMax() / 10.0;
+
+		_axis_points[5][0] = _axis_points[1][0];
+		_axis_points[5][1] = _axis_points[1][1];
+		_axis_points[5][2] = _axis_points[1][2];
+	}
+	
 	// wyznaczenie Sx==Sy aby wykresy nie rozszerzały się, nierównomiernie
 	// oraz obliczenie paddingu po lewej i prawej stronie wykresu, aby był rysowany na środku panelu
 	int padding;
@@ -132,7 +130,7 @@ void KrzyweLissajousaFrame::updateMatrixes() {
 	// przesunięcie układu do tyłu ekranu (w stronę + osi Z)
 	_transform_matrix_before_scale = macierzTranslacji(0, 0, z_axis_shift);
 	// początkowe obrócenie układu i współrzędnych
-	_transform_matrix_before_scale = _transform_matrix_before_scale * macierzObrotuX(335);
+	_transform_matrix_before_scale = _transform_matrix_before_scale * macierzObrotuX(325);
 	_transform_matrix_before_scale = _transform_matrix_before_scale * macierzObrotuY(335);
 
 	// skopiowanie macierzy transformacji przed obróceniem do macierzy transformacji osi
@@ -149,7 +147,7 @@ void KrzyweLissajousaFrame::updateMatrixes() {
 
 	// przesunięcie środka do lewego-dolnego rogu -> przeskalowanie punktów -> przesunięcie środka na środek drawingPanel
 	_transform_matrix = _transform_matrix * macierzTranslacji(0, panelSize.y, 0) * (macierzSkalowania(Sx, Sy, Sz) * macierzTranslacji(1, -1, 0));
-	_transform_matrix = _transform_matrix * macierzRzutowania3Dna2D(-1.0, 1.0, 1.0, -1.0, 1.0, 21.0);
+	_transform_matrix = _transform_matrix * macierzRzutowania3Dna2D(-1.0, 1.0, 1.0, -1.0, 1.0, 40.0);
 }
 
 /**
@@ -161,7 +159,7 @@ void KrzyweLissajousaFrame::rotationX_Update(wxScrollEvent& event) {
 	_angleX = rotationX_slider->GetValue();
 	rotationX_value->SetLabelText(std::to_string(_angleX));
 
-	updateMatrixes();
+	updateDataForDrawing();
 	Repaint();
 }
 
@@ -174,7 +172,7 @@ void KrzyweLissajousaFrame::rotationY_Update(wxScrollEvent& event) {
 	_angleY = rotationY_slider->GetValue();
 	rotationY_value->SetLabelText(std::to_string(_angleY));
 
-	updateMatrixes();
+	updateDataForDrawing();
 	Repaint();
 }
 
@@ -187,7 +185,7 @@ void KrzyweLissajousaFrame::rotationZ_Update(wxScrollEvent& event) {
 	_angleZ = rotationZ_slider->GetValue();
 	rotationZ_value->SetLabelText(std::to_string(_angleZ));
 
-	updateMatrixes();
+	updateDataForDrawing();
 	Repaint();
 }
 
@@ -198,7 +196,7 @@ void KrzyweLissajousaFrame::rotationZ_Update(wxScrollEvent& event) {
 void KrzyweLissajousaFrame::sposobRysowania_update(wxCommandEvent& event) {
 	_drawingMethod = !_drawingMethod;
 
-	updateMatrixes();
+	updateDataForDrawing();
 	Repaint();
 }
 
@@ -217,9 +215,9 @@ void KrzyweLissajousaFrame::coordinates_update(wxCommandEvent& event) {
 		function_theta->SetLabel(L"\u03B8 = arccos(z/r)");
 		function_phi->SetLabel(L"\u03C6 = arctan 2(y,z)");
 	}
-	_coordinates = !_coordinates;
+	_coordinates_bipilar = !_coordinates_bipilar;
 
-	updateMatrixes();
+	updateDataForDrawing();
 	Repaint();
 }
 
@@ -232,7 +230,7 @@ void KrzyweLissajousaFrame::A_update(wxScrollEvent& event) {
 	_ampX = static_cast<double>(amplitudeX_slider->GetValue()) / 10.0;
 	amplitudeX_value->SetLabelText(double_to_string(_ampX));
 
-	updateMatrixes();
+	updateDataForDrawing();
 	Repaint();
 }
 
@@ -245,7 +243,7 @@ void KrzyweLissajousaFrame::a_update(wxScrollEvent& event) {
 	_aX = aX_slider->GetValue();
 	aX_value->SetLabelText(std::to_string(_aX));
 
-	updateMatrixes();
+	updateDataForDrawing();
 	Repaint();
 }
 
@@ -258,7 +256,7 @@ void KrzyweLissajousaFrame::f_a_update(wxScrollEvent& event) {
 	_shiftX = degrees_to_radians(shiftX_slider->GetValue());
 	shiftX_value->SetLabelText(std::to_string(shiftX_slider->GetValue()));
 
-	updateMatrixes();
+	updateDataForDrawing();
 	Repaint();
 }
 
@@ -271,7 +269,7 @@ void KrzyweLissajousaFrame::B_update(wxScrollEvent& event) {
 	_ampY = static_cast<double>(amplitudeY_slider->GetValue()) / 10.0;
 	amplitudeY_value->SetLabelText(double_to_string(_ampY));
 
-	updateMatrixes();
+	updateDataForDrawing();
 	Repaint();
 }
 
@@ -284,7 +282,7 @@ void KrzyweLissajousaFrame::b_update(wxScrollEvent& event) {
 	_bY = bY_slider->GetValue();
 	bY_value->SetLabelText(std::to_string(_bY));
 
-	updateMatrixes();
+	updateDataForDrawing();
 	Repaint();
 }
 
@@ -297,7 +295,7 @@ void KrzyweLissajousaFrame::f_b_update(wxScrollEvent& event) {
 	_shiftY = degrees_to_radians(shiftY_slider->GetValue());
 	shiftY_value->SetLabelText(std::to_string(shiftY_slider->GetValue()));
 
-	updateMatrixes();
+	updateDataForDrawing();
 	Repaint();
 }
 
@@ -310,7 +308,7 @@ void KrzyweLissajousaFrame::C_update(wxScrollEvent& event) {
 	_ampZ = static_cast<double>(amplitudeZ_slider->GetValue()) / 10.0;
 	amplitudeZ_value->SetLabelText(double_to_string(_ampZ));
 
-	updateMatrixes();
+	updateDataForDrawing();
 	Repaint();
 }
 
@@ -323,7 +321,7 @@ void KrzyweLissajousaFrame::c_update(wxScrollEvent& event) {
 	_cZ = cZ_slider->GetValue();
 	cZ_value->SetLabelText(std::to_string(_cZ));
 
-	updateMatrixes();
+	updateDataForDrawing();
 	Repaint();
 }
 
@@ -336,7 +334,7 @@ void KrzyweLissajousaFrame::f_c_update(wxScrollEvent& event) {
 	_shiftZ = degrees_to_radians(shiftZ_slider->GetValue());
 	shiftZ_value->SetLabelText(std::to_string(shiftZ_slider->GetValue()));
 
-	updateMatrixes();
+	updateDataForDrawing();
 	Repaint();
 }
 
@@ -420,20 +418,38 @@ double KrzyweLissajousaFrame::functionPhi(double t) const {
  * @param event
  */
 void KrzyweLissajousaFrame::OnSizeChange(wxSizeEvent& event) {
-	updateMatrixes();
+	updateDataForDrawing();
 	Repaint();
 }
 
 
+void KrzyweLissajousaFrame::calculateCartesianCoordinates() {
+	double* temp_t = new double[_nodes];
+	for (int i = 0; i < _nodes; ++i) {
+		temp_t[i] = 2.0 * PI * i / static_cast<double>(_nodes);	// 200 punktów w zakresie od 0 do 2*PI
+		_data_points[i][0] = functionX(temp_t[i]);
+		_data_points[i][1] = functionY(temp_t[i]);
+		_data_points[i][2] = functionZ(temp_t[i]);
+	}
+	delete[] temp_t;
+};
+
+
+void KrzyweLissajousaFrame::RepaintBipolarCoordinates() {
+	double* temp_t = new double[_nodes];
+	for (int i = 0; i < _nodes; ++i) {
+		// '2.02' a nie '2.0' ponieważ nie chcą narysować się ostatnie odcinki, które domykają krzywą, idk
+		temp_t[i] = 2.02 * PI * i / static_cast<double>(_nodes);	// 200 punktów w zakresie od 0 do 2*PI
+		_data_points[i][0] = functionR(temp_t[i]);
+		_data_points[i][1] = functionTheta(temp_t[i], _data_points[i][0]);
+		_data_points[i][2] = functionPhi(temp_t[i]);
+		polar_to_xyz(_data_points[i][0], _data_points[i][1], _data_points[i][2]);
+	}
+	delete[] temp_t;
+};
+
 void KrzyweLissajousaFrame::Repaint() {
 	// TODO: Implement Repaint
-
-	wxClientDC MyClientDC(drawingPanel);
-	wxBufferedDC dc(&MyClientDC, drawingPanel->GetClientSize());
-
-	dc.SetBackground(wxBrush(wxColour(255, 255, 255), wxBRUSHSTYLE_SOLID));
-	dc.Clear();
-
 	/*
 		Pomysł na rysowanie:
 		Stworzenie dodatkowego wątku, który będzie aktualizawoał drawingPanel co jakiś czas np. 30 razy na sekunde (30fps), poprzez wywoływanie Refresh()
@@ -445,36 +461,29 @@ void KrzyweLissajousaFrame::Repaint() {
 		https://youtu.be/nuGpVppgV7c?si=UJqiCyuynRl-TThT&t=61
 	*/
 
+	wxClientDC MyClientDC(drawingPanel);
+	wxBufferedDC dc(&MyClientDC, drawingPanel->GetClientSize());
+
+	dc.SetBackground(wxBrush(wxColour(255, 255, 255), wxBRUSHSTYLE_SOLID));
+	dc.Clear();
 
 	// sprawdzenie wyrysowania, bez animacji zależnej od czasu
 
-	double* temp_t = new double[_nodes];
-	if (_coordinates) {	// współrzędne r, theta, phi
-		for (int i = 0; i < _nodes; ++i) {
-			temp_t[i] = 2.0 * PI * i / static_cast<double>(_nodes);	// 200 punktów w zakresie od 0 do 2*PI
-			_data_points[i][0] = functionR(temp_t[i]);
-			_data_points[i][1] = functionTheta(temp_t[i], _data_points[i][0]);
-			_data_points[i][2] = functionPhi(temp_t[i]);
-			polar_to_xyz(_data_points[i][0], _data_points[i][1], _data_points[i][2]);
-		}
+	// obliczanie punktów dla wybranych współrzędnych
+	if (_coordinates_bipilar) {	// współrzędne r, theta, phi
+		RepaintBipolarCoordinates();
 	}else {				// współrzędne x, y, z
-		for (int i = 0; i < _nodes; ++i) {
-			temp_t[i] = 2.0 * PI * i / static_cast<double>(_nodes);	// 200 punktów w zakresie od 0 do 2*PI
-			_data_points[i][0] = functionX(temp_t[i]);
-			_data_points[i][1] = functionY(temp_t[i]);
-			_data_points[i][2] = functionZ(temp_t[i]);
-		}
+		calculateCartesianCoordinates();
 	}
 
 
 	// TODO: Sprawdzenie czy krzywe we współrzędnych biegunowych, dobrze się rysują
-	// TODO: przesunięcie punktów biegunowych aby nie wystawały za ekran rysowania
 	// TODO: Dodanie wartości na osiach 
 
 	double x1, y1, z1, x2, y2, z2;
 	dc.SetPen(wxPen(RGB(0, 0, 0)));
 	if (_drawingMethod) {	// rysowanie odcinków
-		for (int i = 0; i < _nodes - 1; ++i) {
+		for (int i = 0; i < _nodes-1; ++i) {
 			x1 = -_data_points[i][0]; y1 = _data_points[i][1]; z1 = -_data_points[i][2];
 			x2 = -_data_points[i + 1][0]; y2 = _data_points[i + 1][1]; z2 = -_data_points[i + 1][2];
 
