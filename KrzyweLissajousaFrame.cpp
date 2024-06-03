@@ -27,9 +27,9 @@ KrzyweLissajousaFrame::KrzyweLissajousaFrame(wxWindow* parent)
 	function_x->SetLabel(L"x(t)=Asin(at+\u03b1)");
 	function_y->SetLabel(L"y(t)=Bsin(bt+\u03B2)");
 	function_z->SetLabel(L"z(t)=Csin(ct+\u03B3)");
-	function_r->SetLabel(L"r=sqrt(x\u00B2 + y\u00B2 + z\u00B2)");
-	function_theta->SetLabel(L"\u03c6=atan2(y,x)"); //phi
-	function_phi->SetLabel(L"\u03b8=acos(z/r)"); //theta
+	function_r->SetLabel(L"");	// r=sqrt(x\u00B2 + y\u00B2 + z\u00B2)
+	function_theta->SetLabel(L""); // \u03c6=atan2(y,x)
+	function_phi->SetLabel(L""); // \u03b8=acos(z/r)
 	shiftX_text->SetLabel(L"\u03B1");
 	shiftY_text->SetLabel(L"\u03B2");
 	shiftZ_text->SetLabel(L"\u03B3");
@@ -201,13 +201,13 @@ void KrzyweLissajousaFrame::sposobRysowania_update(wxCommandEvent& event) {
  * @param event
  */
 void KrzyweLissajousaFrame::coordinates_update(wxCommandEvent& event) {
-	if (coordinates_RadioBox->GetSelection() == 0) {
+	if (coordinates_RadioBox->GetSelection() == 0) {	// współrzędne kartezjańskie (x,y,z)
 		function_x->SetLabel(L"x(t)=Asin(at+\u03b1)");
 		function_y->SetLabel(L"y(t)=Bsin(bt+\u03B2)");
 		function_z->SetLabel(L"z(t)=Csin(ct+\u03B3)");
-		function_r->SetLabel(L"r=sqrt(x\u00B2 + y\u00B2 + z\u00B2)");
-		function_theta->SetLabel(L"\u03c6=atan2(y,x)"); //phi
-		function_phi->SetLabel(L"\u03b8=acos(z/r)"); //theta
+		function_r->SetLabel(L"");	// r=sqrt(x\u00B2 + y\u00B2 + z\u00B2)
+		function_theta->SetLabel(L""); // \u03c6=atan2(y,x)
+		function_phi->SetLabel(L""); // \u03b8=acos(z/r)
 
 		amplitudeY_slider->Enable();
 		amplitudeZ_slider->Enable();
@@ -407,7 +407,6 @@ void KrzyweLissajousaFrame::calculateCoordinates() {
 };
 
 void KrzyweLissajousaFrame::Repaint() {
-	// TODO: Implement Repaint
 	/*
 		Pomysł na rysowanie:
 		Stworzenie dodatkowego wątku, który będzie aktualizawoał drawingPanel co jakiś czas np. 30 razy na sekunde (30fps), poprzez wywoływanie Refresh()
