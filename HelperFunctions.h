@@ -8,19 +8,9 @@
  */
 std::string double_to_string(double val);
 
-
-constexpr double PI = 3.14159265;
 /**
  * @brief Funkcja pomocnicza, zmieniaj¹ca stopnie na radiany.
  * @param deg Wartoœæ (int) stopni (0 - 360).
  * @return Wartoœæ (double) radianów.
  */
-inline double degrees_to_radians(int deg) { return deg * PI / 180.0; }
-
-/**
- * @brief Funkcja zmieniaj¹ca wspó³rzêdne biegunowe na punkty (x,y,z), aby mo¿na je by³o wyrysowaæ w oknie
- * @param r d³ugoœæ
- * @param theta k¹t na p³aszczyŸnie xy
- * @param phi k¹t na p³aszczyŸnie yz
- */
-void polar_to_xyz(double& r, double& theta, double& phi);
+double degrees_to_radians(int deg);

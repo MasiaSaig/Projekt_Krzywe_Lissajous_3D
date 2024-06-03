@@ -3,7 +3,7 @@
 //constexpr double PI = 3.14159265;
 
 KrzyweLissajousaFrame::KrzyweLissajousaFrame(wxWindow* parent)
-	: _coordinates_bipilar{ false }, _drawingMethod{ false },
+	: _spherical_coordinates{ false }, _drawingMethod{ false },
 	_ampX{ 1 }, _ampY{ 1 }, _ampZ{ 1 },
 	_aX{ 1 }, _bY{ 1 }, _cZ{ 1 },
 	_shiftX{ 0 }, _shiftY{ 0 }, _shiftZ{ 0 },
@@ -11,7 +11,7 @@ KrzyweLissajousaFrame::KrzyweLissajousaFrame(wxWindow* parent)
 	Frame(parent)
 {
 	// ustawienie punktów
-	_data_points = new double[_nodes][3];
+	_data_points = new Point3D[_nodes];
 	// ustawienie punktów osi, na najniższe wartości, !nie środek układu, tj. nie punkt (0,0,0)!
 
 	this->SetMinSize({ 625, 750 });
@@ -27,14 +27,14 @@ KrzyweLissajousaFrame::KrzyweLissajousaFrame(wxWindow* parent)
 	function_x->SetLabel(L"x(t)=Asin(at+\u03b1)");
 	function_y->SetLabel(L"y(t)=Bsin(bt+\u03B2)");
 	function_z->SetLabel(L"z(t)=Csin(ct+\u03B3)");
-	function_r->SetLabel(L"");
-	function_theta->SetLabel(L"");
-	function_phi->SetLabel(L"");
+	function_r->SetLabel(L"r=sqrt(x\u00B2 + y\u00B2 + z\u00B2)");
+	function_theta->SetLabel(L"\u03c6=atan2(y,x)"); //phi
+	function_phi->SetLabel(L"\u03b8=acos(z/r)"); //theta
 	shiftX_text->SetLabel(L"\u03B1");
 	shiftY_text->SetLabel(L"\u03B2");
 	shiftZ_text->SetLabel(L"\u03B3");
 
-	coordinates_RadioBox->SetString(1, L"(r, \u03b8, \u03c6)");
+	coordinates_RadioBox->SetString(1, L"(r, \u03c6, \u03b8)"); //r, phi, theta
 	coordinates_RadioBox->SetSelection(0);	// ponownie wybiera (x,y,z)
 	drawingMethod_RadioBox->SetSelection(0);
 
@@ -56,10 +56,10 @@ void KrzyweLissajousaFrame::updateDataForDrawing() {
 	double Sy = panelSize.y / 2.0;
 	double Sz = 1.0;
 
-	
+
 	// obliczanie punktów do wyrysowania osi współrzędnych (niebieskich odcinków)
 	double z_axis_shift;
-	if (_coordinates_bipilar) {
+	if (_spherical_coordinates) {
 		double max_amplitude = sqrt((pow(amplitudeX_slider->GetMax(), 2) + pow(amplitudeY_slider->GetMax(), 2) + pow(amplitudeZ_slider->GetMax(), 2)) / 100.0);
 		z_axis_shift = 2.0 * max_amplitude;
 
@@ -86,7 +86,8 @@ void KrzyweLissajousaFrame::updateDataForDrawing() {
 		_axis_points[5][0] = _axis_points[1][0];
 		_axis_points[5][1] = _axis_points[1][1];
 		_axis_points[5][2] = _axis_points[1][2];
-	}else {
+	}
+	else {
 		z_axis_shift = (2.0 * amplitudeZ_slider->GetMax() / 10.0) + 3.0;
 		_axis_points[0][0] = -amplitudeX_slider->GetMax() / 10.0;
 		_axis_points[0][1] = amplitudeY_slider->GetMax() / 10.0;
@@ -112,7 +113,7 @@ void KrzyweLissajousaFrame::updateDataForDrawing() {
 		_axis_points[5][1] = _axis_points[1][1];
 		_axis_points[5][2] = _axis_points[1][2];
 	}
-	
+
 	// wyznaczenie Sx==Sy aby wykresy nie rozszerzały się, nierównomiernie
 	// oraz obliczenie paddingu po lewej i prawej stronie wykresu, aby był rysowany na środku panelu
 	int padding;
@@ -206,16 +207,22 @@ void KrzyweLissajousaFrame::sposobRysowania_update(wxCommandEvent& event) {
  */
 void KrzyweLissajousaFrame::coordinates_update(wxCommandEvent& event) {
 	if (coordinates_RadioBox->GetSelection() == 0) {
-		function_r->SetLabel(L"");
-		function_theta->SetLabel(L"");
-		function_phi->SetLabel(L"");
+		function_x->SetLabel(L"x(t)=Asin(at+\u03b1)");
+		function_y->SetLabel(L"y(t)=Bsin(bt+\u03B2)");
+		function_z->SetLabel(L"z(t)=Csin(ct+\u03B3)");
+		function_r->SetLabel(L"r=sqrt(x\u00B2 + y\u00B2 + z\u00B2)");
+		function_theta->SetLabel(L"\u03c6=atan2(y,x)"); //phi
+		function_phi->SetLabel(L"\u03b8=acos(z/r)"); //theta
 	}
 	else {
-		function_r->SetLabel(L"r=sqrt(x\u00B2 + y\u00B2 + z\u00B2)");
-		function_theta->SetLabel(L"\u03B8 = arccos(z/r)");
-		function_phi->SetLabel(L"\u03C6 = arctan 2(y,z)");
+		function_x->SetLabel(L"x=rsin(\u03b8)cos(\u03c6)");
+		function_y->SetLabel(L"y=rsin(\u03b8)sin(\u03c6)");
+		function_z->SetLabel(L"z=rcos(\u03b8)");
+		function_r->SetLabel(L"r(t)=Asin(at+\u03b1)");
+		function_theta->SetLabel(L"\u03c6(t)=bt+\u03B2"); //phi
+		function_phi->SetLabel(L"\u03b8(t)=ct+\u03B3"); //theta
 	}
-	_coordinates_bipilar = !_coordinates_bipilar;
+	_spherical_coordinates = !_spherical_coordinates;
 
 	updateDataForDrawing();
 	Repaint();
@@ -342,76 +349,51 @@ void KrzyweLissajousaFrame::f_c_update(wxScrollEvent& event) {
 // ----------------------------------------------------------------------------------------------
 
 /**
- * @brief Zastosowanie podanej macierzy transformacji, na podanych dwóch punktach.
- * @param t Macierz transformacji o wymiarach 4x4, typu Matrix4d.
- */
-static void line2d(Matrix4d t, double* x1, double* y1, double* z1, double* x2, double* y2, double* z2) {
-	Vector4d v1(*x1, *y1, *z1);
-	v1 = t * v1;
-	*x1 = v1[0] / v1[3];
-	*y1 = v1[1] / v1[3];
-	*z1 = v1[2] / (v1[3]);
-	v1[0] = *x2;
-	v1[1] = *y2;
-	v1[2] = *z2;
-	v1[3] = 1.0;
-	v1 = t * v1;
-	*x2 = v1[0] / v1[3];
-	*y2 = v1[1] / v1[3];
-	*z2 = v1[2] / (v1[3]);
-}
-
-/**
  * @brief Zastosowanie podanej macierzy transformacji, na podanym punkcie punktach.
  * @param t Macierz transformacji o wymiarach 4x4, typu Matrix4d.
  */
-static void point2d(Matrix4d t, double* x1, double* y1, double* z1) {
-	Vector4d v1(*x1, *y1, *z1);
+void point2d(const Matrix4d& t, Point3D& p) {
+	auto [x, y, z] = p;
+
+	Vector4d v1(x, y, z);
 	v1 = t * v1;
-	*x1 = v1[0] / v1[3];
-	*y1 = v1[1] / v1[3];
-	*z1 = v1[2] / (v1[3]);
+
+	p.x = v1[0] / v1[3];
+	p.y = v1[1] / v1[3];
+	p.z = v1[2] / v1[3];
+
 }
 
 /**
- * @brief Funkcja obliczająca współrzędną x.
- * @param t Czas (double) dla której wyznaczana jest wartość x.
- * @return obliczona wartość współrzędnej x.
+ * @brief Funkcja obliczająca współrzędne kartezjanskie.
+ * @param t Czas (double)
+ * @return Obliczone wartości współrzędnych (Point3D)
  */
-double KrzyweLissajousaFrame::functionX(double t) const {
-	return _ampX * sin(_aX * t + _shiftX);
+Point3D KrzyweLissajousaFrame::calcCartesianPoint3D(double t) const {
+	return { _ampX * std::sin(_aX * t + _shiftX), _ampY * std::sin(_bY * t + _shiftY), _ampZ * std::sin(_cZ * t + _shiftZ) };
 }
 
 /**
- * @brief Funkcja obliczająca współrzędną y.
- * @param t Czas (double) dla której wyznaczana jest wartość y.
- * @return obliczona wartość współrzędnej y.
+ * @brief Funkcja obliczająca współrzędne sferyczne.
+ * @param t Czas (double)
+ * @return Obliczone wartości współrzędnych (Point3D)
  */
-double KrzyweLissajousaFrame::functionY(double t) const {
-	return _ampY * sin(_bY * t + _shiftY);
+Point3D KrzyweLissajousaFrame::calcSphericalPoint3D(double t) const {
+	return { _ampX * std::sin(_aX * t + _shiftX), _bY * t + _shiftY, _cZ * t + _shiftZ };
 }
 
-/**
- * @brief Funkcja obliczająca współrzędną z.
- * @param t Czas (double) dla której wyznaczana jest wartość z.
- * @return obliczona wartość współrzędnej z.
- */
-double KrzyweLissajousaFrame::functionZ(double t) const {
-	return _ampZ * sin(_cZ * t + _shiftZ);
-}
-
-// https://chatgpt.com/share/c05d3d8a-1e57-409e-89f6-9022943b7645
-// TODO: optymalizacja, jakaś konwersja współrzędnych żeby nie obliczać np. functionX(t) kilka razy
-double KrzyweLissajousaFrame::functionR(double t) const {
-	return sqrt(pow(functionX(t), 2) + pow(functionY(t), 2) + pow(functionZ(t), 2));
-}
-double KrzyweLissajousaFrame::functionTheta(double t, double r) const {
-	return acos(functionZ(t) / r);
-}
-double KrzyweLissajousaFrame::functionPhi(double t) const {
-	// return atan(2.0 * functionY(t));
-	return atan(2.0 * functionY(t));
-}
+//// https://chatgpt.com/share/c05d3d8a-1e57-409e-89f6-9022943b7645
+//// TODO: optymalizacja, jakaś konwersja współrzędnych żeby nie obliczać np. functionX(t) kilka razy
+//double KrzyweLissajousaFrame::functionR(double t) const {
+//	return sqrt(pow(functionX(t), 2) + pow(functionY(t), 2) + pow(functionZ(t), 2));
+//}
+//double KrzyweLissajousaFrame::functionTheta(double t, double r) const {
+//	return acos(functionZ(t) / r);
+//}
+//double KrzyweLissajousaFrame::functionPhi(double t) const {
+//	// return atan(2.0 * functionY(t));
+//	return atan(2.0 * functionY(t));
+//}
 
 /**
  * @brief Funkcja wywołująca Repaint() podczas zmiany rozmiaru okna.
@@ -422,31 +404,29 @@ void KrzyweLissajousaFrame::OnSizeChange(wxSizeEvent& event) {
 	Repaint();
 }
 
-
-void KrzyweLissajousaFrame::calculateCartesianCoordinates() {
-	double* temp_t = new double[_nodes];
-	for (int i = 0; i < _nodes; ++i) {
-		temp_t[i] = 2.0 * PI * i / static_cast<double>(_nodes);	// 200 punktów w zakresie od 0 do 2*PI
-		_data_points[i][0] = functionX(temp_t[i]);
-		_data_points[i][1] = functionY(temp_t[i]);
-		_data_points[i][2] = functionZ(temp_t[i]);
+void KrzyweLissajousaFrame::calculateCoordinates() {
+	if (_spherical_coordinates) {
+		for (int i = 0; i < _nodes; ++i) {
+			_data_points[i] = calcSphericalPoint3D(2.0 * M_PI * i / _nodes);
+		}
 	}
-	delete[] temp_t;
+	else {
+		for (int i = 0; i < _nodes; ++i) {
+			_data_points[i] = calcCartesianPoint3D(2.0 * M_PI * i / _nodes);
+		}
+	}
+	
 };
 
 
-void KrzyweLissajousaFrame::RepaintBipolarCoordinates() {
-	double* temp_t = new double[_nodes];
-	for (int i = 0; i < _nodes; ++i) {
-		// '2.02' a nie '2.0' ponieważ nie chcą narysować się ostatnie odcinki, które domykają krzywą, idk
-		temp_t[i] = 2.02 * PI * i / static_cast<double>(_nodes);	// 200 punktów w zakresie od 0 do 2*PI
-		_data_points[i][0] = functionR(temp_t[i]);
-		_data_points[i][1] = functionTheta(temp_t[i], _data_points[i][0]);
-		_data_points[i][2] = functionPhi(temp_t[i]);
-		polar_to_xyz(_data_points[i][0], _data_points[i][1], _data_points[i][2]);
-	}
-	delete[] temp_t;
-};
+//void KrzyweLissajousaFrame::RepaintBipolarCoordinates() {
+//	Point3D p;
+//	for (int i = 0; i < _nodes; ++i) {
+//		p = calcPoint3D(2.0 * M_PI * i / _nodes);
+//		to_spherical(p);
+//		_data_points[i] = p;
+//	}
+//};
 
 void KrzyweLissajousaFrame::Repaint() {
 	// TODO: Implement Repaint
@@ -469,58 +449,61 @@ void KrzyweLissajousaFrame::Repaint() {
 
 	// sprawdzenie wyrysowania, bez animacji zależnej od czasu
 
-	// obliczanie punktów dla wybranych współrzędnych
-	if (_coordinates_bipilar) {	// współrzędne r, theta, phi
-		RepaintBipolarCoordinates();
-	}else {				// współrzędne x, y, z
-		calculateCartesianCoordinates();
-	}
-
+	// obliczanie punktów
+	calculateCoordinates();
 
 	// TODO: Sprawdzenie czy krzywe we współrzędnych biegunowych, dobrze się rysują
 	// TODO: Dodanie wartości na osiach 
 
-	double x1, y1, z1, x2, y2, z2;
+	Point3D p1, p2;
 	dc.SetPen(wxPen(RGB(0, 0, 0)));
+
 	if (_drawingMethod) {	// rysowanie odcinków
-		for (int i = 0; i < _nodes-1; ++i) {
-			x1 = -_data_points[i][0]; y1 = _data_points[i][1]; z1 = -_data_points[i][2];
-			x2 = -_data_points[i + 1][0]; y2 = _data_points[i + 1][1]; z2 = -_data_points[i + 1][2];
+		for (int i = 0; i < _nodes; ++i) {
+			p1 = _data_points[i];
+			p2 = _data_points[i == _nodes - 1 ? 0 : i + 1];
 
-			line2d(_transform_matrix_before_scale, &x1, &y1, &z1, &x2, &y2, &z2);
-			if ((z1 > 1) && (z2 > 1)) {	// zapobiega wyrysowanu odcinków za ekranem wyświetlania
-				line2d(_transform_matrix, &x1, &y1, &z1, &x2, &y2, &z2);
-				dc.DrawLine(x1, y1, x2, y2);
+			if (_spherical_coordinates) {
+				to_cartesian(p1);
+				to_cartesian(p2);
 			}
-		}
-		// rysuje odcinek ostatnigo punktu z pierwszym punktem
-		x1 = -_data_points[_nodes-1][0]; y1 = _data_points[_nodes-1][1]; z1 = -_data_points[_nodes-1][2];
-		x2 = -_data_points[0][0]; y2 = _data_points[0][1]; z2 = -_data_points[0][2];
 
-		line2d(_transform_matrix_before_scale, &x1, &y1, &z1, &x2, &y2, &z2);
-		if ((z1 > 1) && (z2 > 1)) {	// zapobiega wyrysowanu odcinków za ekranem wyświetlania
-			line2d(_transform_matrix, &x1, &y1, &z1, &x2, &y2, &z2);
-			dc.DrawLine(x1, y1, x2, y2);
-		}
-	}else {		// rysowanie punktów
-		for (int i = 0; i < _nodes - 1; ++i) {
-			x1 = -_data_points[i][0]; y1 = _data_points[i][1]; z1 = -_data_points[i][2];
+			point2d(_transform_matrix_before_scale, p1);
+			point2d(_transform_matrix_before_scale, p2);
 
-			point2d(_transform_matrix_before_scale, &x1, &y1, &z1);
-			if (z1 > 1) {	// zapobiega wyrysowanu punktów za ekranem wyświetlania
-				point2d(_transform_matrix, &x1, &y1, &z1);
-				dc.DrawCircle({static_cast<int>(x1), static_cast<int>(y1)}, 1);
+			if ((p1.z > 1.0) && (p2.z > 1.0)) {	// zapobiega wyrysowanu odcinków za ekranem wyświetlania
+				point2d(_transform_matrix, p1);
+				point2d(_transform_matrix, p2);
+
+				dc.DrawLine(p1.x, p1.y, p2.x, p2.y);
 			}
 		}
 	}
+	else {		// rysowanie punktów
+		for (int i = 0; i < _nodes; ++i) {
+			p1 = _data_points[i];
+
+			if (_spherical_coordinates)
+				to_cartesian(p1);
+
+			point2d(_transform_matrix_before_scale, p1);
+
+			if (p1.z > 1.0) {	// zapobiega wyrysowanu punktów za ekranem wyświetlania
+				point2d(_transform_matrix, p1);
+				dc.DrawCircle(static_cast<int>(p1.x), static_cast<int>(p1.y), 1);
+			}
+		}
+	}
+
 	// rysowanie odcinków osi
-	dc.SetPen(wxPen(RGB(0, 0, 160)));
-	for (int i = 0; i < 5; ++i) {
-		x1 = -_axis_points[i][0]; y1 = _axis_points[i][1]; z1 = -_axis_points[i][2];
-		x2 = -_axis_points[i + 1][0]; y2 = _axis_points[i + 1][1]; z2 = -_axis_points[i + 1][2];
+	//dc.SetPen(wxPen(RGB(0, 0, 160)));
+	//for (int i = 0; i < 5; ++i) {
+	//	p1=
+	//	x1 = -_axis_points[i][0]; y1 = _axis_points[i][1]; z1 = -_axis_points[i][2];
+	//	x2 = -_axis_points[i + 1][0]; y2 = _axis_points[i + 1][1]; z2 = -_axis_points[i + 1][2];
 
-		line2d(_transform_matrix_before_scale_axis, &x1, &y1, &z1, &x2, &y2, &z2);
-		line2d(_transform_matrix, &x1, &y1, &z1, &x2, &y2, &z2);
-		dc.DrawLine(x1, y1, x2, y2);
-	}
+	//	line2d(_transform_matrix_before_scale_axis, &x1, &y1, &z1, &x2, &y2, &z2);
+	//	line2d(_transform_matrix, &x1, &y1, &z1, &x2, &y2, &z2);
+	//	dc.DrawLine(x1, y1, x2, y2);
+	//}
 }

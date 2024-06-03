@@ -1,4 +1,11 @@
 #include "HelperFunctions.h"
+#define _USE_MATH_DEFINES
+#include <cmath>
+
+//ehhh - programowanie na windowsie - nawet pi nie dziala
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
 
 
 std::string double_to_string(double val) {
@@ -8,10 +15,7 @@ std::string double_to_string(double val) {
 	return amp;
 }
 
-void polar_to_xyz(double& r, double& theta, double& phi) {
-	double x, y, z;
-	x = r * cos(theta) * cos(phi);
-	y = r * cos(theta) * sin(phi);
-	z = r * sin(theta);
-	r = x; theta = y; phi = z;
+double degrees_to_radians(int deg)
+{
+	return deg * M_PI / 180.0;
 }
