@@ -7,7 +7,6 @@
 #define M_PI 3.14159265358979323846
 #endif
 
-
 std::string double_to_string(double val) {
 	std::string amp = std::to_string(val);
 	amp.erase(amp.find_last_not_of('0') + 1, std::string::npos);

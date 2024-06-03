@@ -3,9 +3,9 @@
 
 void to_cartesian(Point3D& p) {
 	auto [r, phi, theta] = p;
-	p.x = r * sin(theta) * cos(phi);
-	p.y = r * sin(theta) * sin(phi);
-	p.z = r * cos(theta);
+	p.x = r * std::sin(theta) * std::cos(phi);
+	p.y = r * std::sin(theta) * std::sin(phi);
+	p.z = r * std::cos(theta);
 }
 
 void to_spherical(Point3D& p) {
