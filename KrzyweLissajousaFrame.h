@@ -120,7 +120,7 @@ class KrzyweLissajousaFrame : public Frame
 		* _axis_points[2] - koniec osi OY
 		* _axis_points[3] - koniec osi OZ
 		*/
-		Point3D _axis_points[4];
+		Point3D _axis_points[12];
 
 		/** Macierz stosowana dla punktów krzywych Lissajousa, przed skalująca wielkości/odległości dla ekranu. */
 		Matrix4d _transform_matrix_before_scale;

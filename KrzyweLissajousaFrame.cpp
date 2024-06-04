@@ -90,21 +90,36 @@ void KrzyweLissajousaFrame::updateDataForDrawing() {
 
 
 	// obliczanie punktów do wyrysowania osi współrzędnych (niebieskich odcinków)
-	double z_axis_shift;
-	double axes_lenght;
-	_axis_points[0] = Point3D();
+	double x_axis_shift;
+	double axes_lenght = amplitudeX_slider->GetMax() / 10.0;
+	//_axis_points[0] = Point3D();
 	if (_spherical_coordinates) {
-		axes_lenght = amplitudeX_slider->GetValue() / 25.0;
-		z_axis_shift = (2.0 * amplitudeX_slider->GetMax() / 10.0) + 3.0;
+		//axes_lenght = amplitudeX_slider->GetValue() / 25.0;
+		x_axis_shift = (2.0 * amplitudeX_slider->GetMax() / 10.0) + 5.0;
 	}
 	else {
-		z_axis_shift = (2.0 * amplitudeZ_slider->GetMax() / 10.0) + 3.0;
-		axes_lenght = std::min({ amplitudeX_slider->GetValue(),amplitudeY_slider->GetValue(),amplitudeZ_slider->GetValue() }) / 25.0;
+		//axes_lenght = std::min({ amplitudeX_slider->GetValue(),amplitudeY_slider->GetValue(),amplitudeZ_slider->GetValue() }) / 25.0;
+		x_axis_shift = (2.0 * amplitudeZ_slider->GetMax() / 10.0) + 5.0;
 	}
+	// współrzędne końców oś
+	_axis_points[0] = { -axes_lenght, -axes_lenght, axes_lenght };
+	_axis_points[1] = { axes_lenght, -axes_lenght, axes_lenght };
+	_axis_points[2] = { -axes_lenght, axes_lenght, axes_lenght };
+	_axis_points[3] = { -axes_lenght, -axes_lenght, -axes_lenght };
 
-	_axis_points[1] = { axes_lenght, 0, 0 };
+	_axis_points[4] = { axes_lenght, -axes_lenght, -axes_lenght };
+	_axis_points[5] = { axes_lenght, axes_lenght, -axes_lenght };
+	_axis_points[6] = {-axes_lenght, -axes_lenght, -axes_lenght };
+	_axis_points[7] = { axes_lenght, -axes_lenght, axes_lenght };
+
+	_axis_points[8] = { -axes_lenght, axes_lenght, -axes_lenght };
+	_axis_points[9] = { -axes_lenght, -axes_lenght, -axes_lenght };
+	_axis_points[10] = { axes_lenght, axes_lenght, -axes_lenght };
+	_axis_points[11] = { -axes_lenght, axes_lenght, axes_lenght };
+	/*_axis_points[1] = { axes_lenght, 0, 0 };
 	_axis_points[2] = { 0, axes_lenght, 0 };
-	_axis_points[3] = { 0, 0, axes_lenght };
+	_axis_points[3] = { 0, 0, axes_lenght };*/
+	
 
 	// wyznaczenie Sx==Sy aby wykresy nie rozszerzały się, nierównomiernie
 	// oraz obliczenie paddingu po lewej i prawej stronie wykresu, aby był rysowany na środku panelu
@@ -121,13 +136,13 @@ void KrzyweLissajousaFrame::updateDataForDrawing() {
 	}
 
 	// przesunięcie układu do tyłu ekranu (w stronę + osi Z)
-	_transform_matrix_before_scale = macierzTranslacji(0, 0, z_axis_shift);
+	_transform_matrix_before_scale = macierzTranslacji(0, 0, x_axis_shift);
 
 	// początkowe obrócenie układu i współrzędnych
-	_transform_matrix_before_scale = _transform_matrix_before_scale * macierzObrotuX(-90);
-	_transform_matrix_before_scale = _transform_matrix_before_scale * macierzObrotuZ(45);
-	_transform_matrix_before_scale = _transform_matrix_before_scale * macierzObrotuX(-15);
-	_transform_matrix_before_scale = _transform_matrix_before_scale * macierzObrotuY(15);
+	_transform_matrix_before_scale = _transform_matrix_before_scale * macierzObrotuX(-105);
+	//_transform_matrix_before_scale = _transform_matrix_before_scale * macierzObrotuY(15);
+	_transform_matrix_before_scale = _transform_matrix_before_scale * macierzObrotuZ(60);
+	
 
 	// skopiowanie macierzy transformacji przed obróceniem do macierzy transformacji osi
 	// aby zapobiez zastosowaniu obrodu do osi współrzędnych
@@ -362,7 +377,6 @@ void point2d(const Matrix4d& t, Point3D& p) {
 	p.x = v1[0] / v1[3];
 	p.y = v1[1] / v1[3];
 	p.z = v1[2] / v1[3];
-
 }
 
 /**
@@ -433,20 +447,25 @@ void KrzyweLissajousaFrame::Repaint() {
 	Point3D p1, p2;
 	//rysowanie odcinków osi
 	dc.SetPen(wxPen(RGB(0, 0, 160)));
+	std::string axis_text[] = { "z", "x", "y" };
+	for (int i = 0; i < 3; ++i) {
+		// transformacja 3 punktów początkowych z których będą wychodziły odcinki oś
+		p1 = _axis_points[4 * i];
+		point2d(_transform_matrix_before_scale_axis, p1);
+		point2d(_transform_matrix, p1);
+		for (int j = 0; j < 4; ++j) {	// rysowanie odcinków osi
+			p2 = _axis_points[i * 4 + j];
+			//if ((p1.x == p2.x) && (p1.y == p2.y) && (p1.z == p2.z)) continue;
 
-	p1 = _axis_points[0];
-	point2d(_transform_matrix_before_scale, p1);
-	point2d(_transform_matrix, p1);
-
-	for (int i = 1; i < 4; ++i) {
-		p2 = _axis_points[i];
-		point2d(_transform_matrix_before_scale, p2);
-		point2d(_transform_matrix, p2);
-
-		dc.DrawLine(p1.x, p1.y, p2.x, p2.y);
+			point2d(_transform_matrix_before_scale_axis, p2);
+			point2d(_transform_matrix, p2);
+			dc.DrawLine(p1.x, p1.y, p2.x, p2.y);
+		}
+		dc.DrawText(axis_text[i], p1.x, p1.y);
 	}
-	dc.SetPen(wxPen(RGB(0, 0, 0)));
 
+	// rysowanie krzywych
+	dc.SetPen(wxPen(RGB(0, 0, 0)));
 	if (_drawingMethod) {	// rysowanie odcinków
 		for (int i = 0; i < _nodes; ++i) {
 			p1 = _data_points[i];
