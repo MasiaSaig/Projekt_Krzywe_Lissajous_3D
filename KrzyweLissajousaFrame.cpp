@@ -1,7 +1,5 @@
 #include "KrzyweLissajousaFrame.h"
 
-//constexpr double PI = 3.14159265;
-
 KrzyweLissajousaFrame::KrzyweLissajousaFrame(wxWindow* parent)
 	: _spherical_coordinates{ false }, _drawingMethod{ false },
 	_ampX{ 5 }, _ampY{ 5 }, _ampZ{ 5 },
@@ -11,7 +9,7 @@ KrzyweLissajousaFrame::KrzyweLissajousaFrame(wxWindow* parent)
 	Frame(parent)
 {
 	// ustawienie punktów
-	_data_points = new Point3D[_nodes];
+	_data_points = std::make_unique<Point3D[]>(_nodes);
 	// ustawienie punktów osi, na najniższe wartości, !nie środek układu, tj. nie punkt (0,0,0)!
 
 	this->SetMinSize({ 625, 750 });
@@ -76,11 +74,14 @@ KrzyweLissajousaFrame::KrzyweLissajousaFrame(wxWindow* parent)
 
 KrzyweLissajousaFrame::~KrzyweLissajousaFrame()
 {
-	delete[] _data_points;
 }
 
 /**
- * @brief Funkcja aktualizująca macierze transformacji, dla punktów krzywych Lissajousa.
+ * Funkcja obliczająca dane potrzebne do wyrysowania punktów krzywych Lissajousa. Oblicza: 
+ * przesunięcie całego wykresu na środek ekranu, 
+ * punkty do wyrysowania osi współrzędnych, 
+ * macierze transformacji które następnie stosowane są dla obliczonych punktów krzywych, 
+ * @brief Funkcja przygotowująca dane do wyrysowania wykresu.
  */
 void KrzyweLissajousaFrame::updateDataForDrawing() {
 	wxSize panelSize = drawingPanel->GetSize();
@@ -101,7 +102,8 @@ void KrzyweLissajousaFrame::updateDataForDrawing() {
 		//axes_lenght = std::min({ amplitudeX_slider->GetValue(),amplitudeY_slider->GetValue(),amplitudeZ_slider->GetValue() }) / 25.0;
 		x_axis_shift = (2.0 * amplitudeZ_slider->GetMax() / 10.0) + 5.0;
 	}
-	// współrzędne końców oś
+	// współrzędne 3 punkty 'początkowe' _axis_points[0], _axis_points[4], _axis_points[8]
+	// z których będą rysowane 3 odcinki, których współrzędne są podane po punktach 'początkowych'
 	_axis_points[0] = { -axes_lenght, -axes_lenght, axes_lenght };
 	_axis_points[1] = { axes_lenght, -axes_lenght, axes_lenght };
 	_axis_points[2] = { -axes_lenght, axes_lenght, axes_lenght };
