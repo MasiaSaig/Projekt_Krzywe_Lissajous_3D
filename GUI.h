@@ -80,6 +80,7 @@ class Frame : public wxFrame
 		wxStaticText* m_staticText32;
 
 		// Virtual event handlers, override them in your derived class
+		virtual void OnWindowMove( wxMoveEvent& event ) { event.Skip(); }
 		virtual void OnSizeChange( wxSizeEvent& event ) { event.Skip(); }
 		virtual void rotationX_Update( wxScrollEvent& event ) { event.Skip(); }
 		virtual void rotationY_Update( wxScrollEvent& event ) { event.Skip(); }
