@@ -12,9 +12,13 @@ KrzyweLissajousaFrame::KrzyweLissajousaFrame(wxWindow* parent)
 	_data_points = std::make_unique<Point3D[]>(_nodes);
 	// ustawienie punktów osi, na najniższe wartości, !nie środek układu, tj. nie punkt (0,0,0)!
 
+	wxIcon icon;
+	icon.LoadFile("icon.ico", wxBITMAP_TYPE_ICO);
+
 	this->SetMinSize({ 625, 750 });
 	this->SetBackgroundColour(wxColor(192, 192, 192));
-	this->wxTopLevelWindow::SetTitle(wxVERSION_STRING);
+	this->wxTopLevelWindow::SetTitle(L"Krzywe Lissajousa 3D");
+	this->SetIcon(icon);
 
 	// przypisanie etykietom(static text) napisów z kodami unicode
 	coordinates_RadioBox->SetLabel(L"Wsp\u00f3rz\u0119dne");
