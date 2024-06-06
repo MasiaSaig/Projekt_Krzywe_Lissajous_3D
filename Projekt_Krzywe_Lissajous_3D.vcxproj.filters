@@ -15,10 +15,13 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="GUI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GUI.cpp">
+    <ClCompile Include="KrzyweLissajousaFrame.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Matrix4d.cpp">
@@ -27,12 +30,12 @@
     <ClCompile Include="Vector4d.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="KrzyweLissajousaFrame.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GUI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="KrzyweLissajousaFrame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Matrix4d.h">
@@ -41,8 +44,8 @@
     <ClInclude Include="Vector4d.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="KrzyweLissajousaFrame.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Krzywe_lissajousa.fbp" />
   </ItemGroup>
 </Project>

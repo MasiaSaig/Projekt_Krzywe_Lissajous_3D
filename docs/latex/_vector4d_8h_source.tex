@@ -1,0 +1,30 @@
+\doxysection{Vector4d.\+h}
+\hypertarget{_vector4d_8h_source}{}\label{_vector4d_8h_source}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <array>}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{comment}{//Vector4d\ operator*(const\ Vector4d\&\ vector,\ double\ value);}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_vector4d}{Vector4d}}\ \{}
+\DoxyCodeLine{00008\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00009\ \ \ \ \ \textcolor{comment}{//Vector4d();}}
+\DoxyCodeLine{00010\ \ \ \ \ \mbox{\hyperlink{class_vector4d}{Vector4d}}(\textcolor{keywordtype}{double}\ x=0,\ \textcolor{keywordtype}{double}\ y=0,\ \textcolor{keywordtype}{double}\ z=0,\ \textcolor{keywordtype}{double}\ v=1);}
+\DoxyCodeLine{00011\ \ \ \ \ \mbox{\hyperlink{class_vector4d}{Vector4d}}\ operator-\/(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_vector4d}{Vector4d}}\&\ vector);}
+\DoxyCodeLine{00012\ \ \ \ \ \textcolor{keywordtype}{double}\&\ operator[]\ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ idx);}
+\DoxyCodeLine{00013\ \ \ \ \ \textcolor{keywordtype}{double}\ operator[]\ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ idx)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keyword}{friend}\ \mbox{\hyperlink{class_vector4d}{Vector4d}}\ operator*(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_vector4d}{Vector4d}}\&\ vector,\ \textcolor{keywordtype}{double}\ value);}
+\DoxyCodeLine{00016\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00017\ \ \ \ \ std::array<double,\ 4>\ \_data;}
+\DoxyCodeLine{00018\ \};}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \textcolor{comment}{//Vector4d\ operator*\ (const\ Vector4d\&\ vector,\ double\ value)\ \{}}
+\DoxyCodeLine{00021\ \textcolor{comment}{//\ \ Vector4d\ result;}}
+\DoxyCodeLine{00022\ \textcolor{comment}{//\ \ for\ (int\ i\ =\ 0;\ i\ <\ 4;\ i++)}}
+\DoxyCodeLine{00023\ \textcolor{comment}{//\ \ \ \ \ \ result[i]\ =\ vector[i]\ *\ value;}}
+\DoxyCodeLine{00024\ \textcolor{comment}{//\ \ return\ result;}}
+\DoxyCodeLine{00025\ \textcolor{comment}{//\}}}
+
+\end{DoxyCode}
