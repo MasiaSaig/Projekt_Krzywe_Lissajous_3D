@@ -25,6 +25,7 @@ class KrzyweLissajousaFrame : public Frame
 {
 	protected:
 		// Handlers for Frame events.
+		void OnWindowMove( wxMoveEvent& event );
 		void OnSizeChange( wxSizeEvent& event );
 		void rotationX_Update( wxScrollEvent& event );
 		void rotationY_Update( wxScrollEvent& event );
@@ -58,12 +59,12 @@ class KrzyweLissajousaFrame : public Frame
 		 * @return Wspolrzedne r, phi, theta (Point3D)
 		 */
 		Point3D calcSphericalPoint3D(double t) const;
-		
+
 		/**
 		 * @brief Funkcja aktualizująca macierze i punkty do wyrysowania osi.
 		 */
 		void updateDataForDrawing();
-		
+
 		/**
 		 * @brief Funkcja obliczająca kolejne punkty krzywej.
 		 */
@@ -73,7 +74,7 @@ class KrzyweLissajousaFrame : public Frame
 		 * @brief Funkcja rysująca krzywe i wszystko co znajduje się w drawingPanel.
 		 */
 		void Repaint();
-		
+
 		/**
 		 * @brief Destruktor zwalniający zaalokowaną pamięć.
 		 */
@@ -126,6 +127,8 @@ class KrzyweLissajousaFrame : public Frame
 		Matrix4d _transform_matrix_before_scale_axis;
 		/** Macierz skalująca punkty, aby pasowały do panelu, ekranu. */
 		Matrix4d _transform_matrix;
+
+
 
 };
 

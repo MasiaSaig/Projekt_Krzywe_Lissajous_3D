@@ -77,10 +77,10 @@ KrzyweLissajousaFrame::~KrzyweLissajousaFrame()
 }
 
 /**
- * Funkcja obliczająca dane potrzebne do wyrysowania punktów krzywych Lissajousa. Oblicza: 
- * przesunięcie całego wykresu na środek ekranu, 
- * punkty do wyrysowania osi współrzędnych, 
- * macierze transformacji które następnie stosowane są dla obliczonych punktów krzywych, 
+ * Funkcja obliczająca dane potrzebne do wyrysowania punktów krzywych Lissajousa. Oblicza:
+ * przesunięcie całego wykresu na środek ekranu,
+ * punkty do wyrysowania osi współrzędnych,
+ * macierze transformacji które następnie stosowane są dla obliczonych punktów krzywych,
  * @brief Funkcja przygotowująca dane do wyrysowania wykresu.
  */
 void KrzyweLissajousaFrame::updateDataForDrawing() {
@@ -111,7 +111,7 @@ void KrzyweLissajousaFrame::updateDataForDrawing() {
 
 	_axis_points[4] = { axes_lenght, -axes_lenght, -axes_lenght };
 	_axis_points[5] = { axes_lenght, axes_lenght, -axes_lenght };
-	_axis_points[6] = {-axes_lenght, -axes_lenght, -axes_lenght };
+	_axis_points[6] = { -axes_lenght, -axes_lenght, -axes_lenght };
 	_axis_points[7] = { axes_lenght, -axes_lenght, axes_lenght };
 
 	_axis_points[8] = { -axes_lenght, axes_lenght, -axes_lenght };
@@ -121,7 +121,7 @@ void KrzyweLissajousaFrame::updateDataForDrawing() {
 	/*_axis_points[1] = { axes_lenght, 0, 0 };
 	_axis_points[2] = { 0, axes_lenght, 0 };
 	_axis_points[3] = { 0, 0, axes_lenght };*/
-	
+
 
 	// wyznaczenie Sx==Sy aby wykresy nie rozszerzały się, nierównomiernie
 	// oraz obliczenie paddingu po lewej i prawej stronie wykresu, aby był rysowany na środku panelu
@@ -144,7 +144,7 @@ void KrzyweLissajousaFrame::updateDataForDrawing() {
 	_transform_matrix_before_scale = _transform_matrix_before_scale * macierzObrotuX(-105);
 	//_transform_matrix_before_scale = _transform_matrix_before_scale * macierzObrotuY(15);
 	_transform_matrix_before_scale = _transform_matrix_before_scale * macierzObrotuZ(60);
-	
+
 
 	// skopiowanie macierzy transformacji przed obróceniem do macierzy transformacji osi
 	// aby zapobiez zastosowaniu obrodu do osi współrzędnych
@@ -421,6 +421,11 @@ void KrzyweLissajousaFrame::calculateCoordinates() {
 	}
 
 };
+
+void KrzyweLissajousaFrame::OnWindowMove(wxMoveEvent& event)
+{
+	Repaint();
+}
 
 void KrzyweLissajousaFrame::Repaint() {
 	/*

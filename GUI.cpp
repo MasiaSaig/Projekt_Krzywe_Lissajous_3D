@@ -306,6 +306,7 @@ Frame::Frame( wxWindow* parent, wxWindowID id, const wxString& title, const wxPo
 	this->Centre( wxBOTH );
 
 	// Connect Events
+	this->Connect( wxEVT_MOVE, wxMoveEventHandler( Frame::OnWindowMove ) );
 	drawingPanel->Connect( wxEVT_SIZE, wxSizeEventHandler( Frame::OnSizeChange ), NULL, this );
 	rotationX_slider->Connect( wxEVT_SCROLL_TOP, wxScrollEventHandler( Frame::rotationX_Update ), NULL, this );
 	rotationX_slider->Connect( wxEVT_SCROLL_BOTTOM, wxScrollEventHandler( Frame::rotationX_Update ), NULL, this );
@@ -422,6 +423,7 @@ Frame::Frame( wxWindow* parent, wxWindowID id, const wxString& title, const wxPo
 Frame::~Frame()
 {
 	// Disconnect Events
+	this->Disconnect( wxEVT_MOVE, wxMoveEventHandler( Frame::OnWindowMove ) );
 	drawingPanel->Disconnect( wxEVT_SIZE, wxSizeEventHandler( Frame::OnSizeChange ), NULL, this );
 	rotationX_slider->Disconnect( wxEVT_SCROLL_TOP, wxScrollEventHandler( Frame::rotationX_Update ), NULL, this );
 	rotationX_slider->Disconnect( wxEVT_SCROLL_BOTTOM, wxScrollEventHandler( Frame::rotationX_Update ), NULL, this );
