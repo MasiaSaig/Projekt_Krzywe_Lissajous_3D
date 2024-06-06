@@ -30,6 +30,15 @@
     <ClCompile Include="Vector4d.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+<<<<<<< HEAD
+=======
+    <ClCompile Include="KrzyweLissajousaFrame.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="HelperFunctions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+>>>>>>> c8655684697a99fb70c9de24510d886aa9f2ba4b
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GUI.h">
@@ -44,8 +53,17 @@
     <ClInclude Include="Vector4d.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+<<<<<<< HEAD
   </ItemGroup>
   <ItemGroup>
     <None Include="Krzywe_lissajousa.fbp" />
+=======
+    <ClInclude Include="KrzyweLissajousaFrame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HelperFunctions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+>>>>>>> c8655684697a99fb70c9de24510d886aa9f2ba4b
   </ItemGroup>
 </Project>
