@@ -38,9 +38,13 @@ KrzyweLissajousaFrame::KrzyweLissajousaFrame(wxWindow* parent)
 	_axis_points[5][2] = _axis_points[1][2];
 
 
+	wxIcon icon;
+	icon.LoadFile("icon.ico", wxBITMAP_TYPE_ICO);
+
 	this->SetMinSize({ 625, 750 });
 	this->SetBackgroundColour(wxColor(192, 192, 192));
-	this->wxTopLevelWindow::SetTitle(wxVERSION_STRING);
+	this->wxTopLevelWindow::SetTitle(L"Krzywe Lissajousa 3D");
+	this->SetIcon(icon);
 
 	// przypisanie etykietom(static text) napisów z kodami unicode
 	coordinates_RadioBox->SetLabel(L"Wsp\u00f3rz\u0119dne");
